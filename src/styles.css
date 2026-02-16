@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root {
+  --primary-color: #282dc0;
+  --secondary-color: #739dd7; 
+  --error-color: #ff5252;
+  --info-color: #2196f3;
+  --success-color: #4caf50;
+  --warning-color: #ffc107;
+}
