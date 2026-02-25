@@ -1,1 +1,43 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+    <div>
+        <h3 class="p-3">Bem vindo, {{ account?.name!.split(' ')[0] }} !</h3>
+    </div>
+    <div class="row p-3">
+        <div class="col">
+            <mat-card>
+                <mat-card-header>
+                    <h5>Saldo em Conta</h5>
+                </mat-card-header>
+                <mat-card-content class="valor">
+                    <p [class]="(account?.balance ?? 0) | negativeValue">
+                        {{ account?.balance | currency: 'BRL' }}
+                    </p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col">
+            <mat-card>
+                <mat-card-header>
+                    <h5>Receitas (mês)</h5>
+                </mat-card-header>
+                <mat-card-content class="valor">
+                    <p [class]="(account?.balance ?? 0) | negativeValue">
+                        {{ account?.balance | currency: 'BRL' }}
+                    </p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col">
+            <mat-card>
+                <mat-card-header>
+                    <h5>Despesas (mês)</h5>
+                </mat-card-header>
+                <mat-card-content class="valor">
+                    <p [class]="(account?.balance ?? 0) | negativeValue">
+                        {{ account?.balance | currency: 'BRL' }}
+                    </p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

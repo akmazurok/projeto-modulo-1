@@ -3,10 +3,11 @@
   flex-direction: column;  
   height: calc(100vh - 64px);
   background-color: var(--secondary-color);
-  padding: 48px 24px;
+  padding: 48px 15px;
   box-sizing: border-box;
 }
 
 .menu-item {
   margin-bottom: 10px; 
+  border-radius: 2px;
 }
