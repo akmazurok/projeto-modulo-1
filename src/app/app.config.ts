@@ -18,3 +18,6 @@ export const appConfig: ApplicationConfig = {
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
   ],
 };
+
+////pipefirst
+// ver se precisa quando for usar o mat form { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },

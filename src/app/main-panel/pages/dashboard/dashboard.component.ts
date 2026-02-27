@@ -1,30 +1,91 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { first } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { Account } from './models/account.model';
 import { DashboardService } from './services/dashboard.service';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { NegativeValuePipe } from '../../../shared/pipes/negative-value.pipe';
+import { TransactionsService } from '../transactions-list/services/transactions.service';
+import { TransactionTypes } from '../transactions-list/constants/transaction-types';
+import { Transaction } from '../transactions-list/models/transaction.model';
+import { SignedValuePipe } from '../../../shared/pipes/signed-value.pipe';
+import { ValueTypeColorPipe } from '../../../shared/pipes/value-type-color.pipe';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatCardModule, CurrencyPipe, NegativeValuePipe],
+  imports: [
+    MatCardModule,
+    CurrencyPipe,
+    NegativeValuePipe,
+    DatePipe,
+    SignedValuePipe,
+    ValueTypeColorPipe,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
   private readonly dashboardService = inject(DashboardService);
+  private readonly transactionsService = inject(TransactionsService);
 
   account?: Account;
-  
-  ngOnInit(): void {
+  transactions: Transaction[] = [];
+  transactionTypesEnum = TransactionTypes;
+  totals = {
+    income: 0,
+    expense: 0,
+    balance: 0,
+  };
+
+  ngOnInit() {
+    this.getAccount();
+    this.getTransactions();
+  }
+
+  getAccount(): void {
     this.dashboardService.getAccount().subscribe({
       next: (res: Account) => {
         this.account = res;
-        console.log(this.account);
       },
       error: (err) => {
         console.log(err);
       },
     });
+  }
+
+  getTransactions(): void {
+    this.transactionsService
+      .getTransactions()
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          this.transactions = res;
+          this.totals = this.calculateTotals(this.transactions);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
+  calculateTotals(transactions: Transaction[]) {
+    return transactions.reduce(
+      (acc, t) => {
+        if (t.type === 'income') {
+          acc.income += t.amount;
+        } else {
+          acc.expense += t.amount;
+        }
+
+        acc.balance = acc.income - acc.expense;
+
+        return acc;
+      },
+      {
+        income: 0,
+        expense: 0,
+        balance: 0,
+      },
+    );
   }
 }

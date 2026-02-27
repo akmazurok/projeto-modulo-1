@@ -16,14 +16,14 @@
       "id": "2",
       "date": "2026-02-02T14:32:00",
       "description": "Supermercado",
-      "amount": -230.5,
+      "amount": 230.5,
       "type": "expense"
     },
     {
       "id": "3",
       "date": "2026-02-03T20:10:00",
       "description": "Netflix",
-      "amount": -39.9,
+      "amount": 39.9,
       "type": "expense"
     },
     {
@@ -37,7 +37,7 @@
       "id": "40c3",
       "date": "2026-02-19",
       "description": "Descrição da transação",
-      "amount": -1500.85,
+      "amount": 1500.85,
       "type": "expense"
     }
   ],

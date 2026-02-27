@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Pages } from '../constants/pages.enum';
 import { MenuItem } from '../models/menu-item.model';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,8 +21,6 @@ export class SidebarComponent {
   ];
 
   redirectToPage(page: Pages): void {
-    console.log(page)
     this.routerService.setCurrentPage(page);
   }
 }
-

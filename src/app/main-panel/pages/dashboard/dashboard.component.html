@@ -4,13 +4,13 @@
     </div>
     <div class="row p-3">
         <div class="col">
-            <mat-card>
+            <mat-card class="mat-primary"   >
                 <mat-card-header>
                     <h5>Saldo em Conta</h5>
                 </mat-card-header>
                 <mat-card-content class="valor">
-                    <p [class]="(account?.balance ?? 0) | negativeValue">
-                        {{ account?.balance | currency: 'BRL' }}
+                    <p [class]="(totals.balance) | negativeValue">
+                        {{ totals.balance | currency }}
                     </p>
                 </mat-card-content>
             </mat-card>
@@ -21,8 +21,8 @@
                     <h5>Receitas (mês)</h5>
                 </mat-card-header>
                 <mat-card-content class="valor">
-                    <p [class]="(account?.balance ?? 0) | negativeValue">
-                        {{ account?.balance | currency: 'BRL' }}
+                    <p class="text-success">
+                        {{ totals.income | currency }}
                     </p>
                 </mat-card-content>
             </mat-card>
@@ -33,11 +33,36 @@
                     <h5>Despesas (mês)</h5>
                 </mat-card-header>
                 <mat-card-content class="valor">
-                    <p [class]="(account?.balance ?? 0) | negativeValue">
-                        {{ account?.balance | currency: 'BRL' }}
+                    <p class="text-danger">
+                        - {{ totals.expense | currency }}
                     </p>
                 </mat-card-content>
             </mat-card>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div class="col">
+            <h5>Últimas transações</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of transactions; track $index) {
+                    <tr>
+                        <td>{{ item.date | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ item.description }}</td>
+                        <td [class]="item.type | valueTypeColor">
+                            {{ item.amount | signedValue: item.type | currency }}
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
