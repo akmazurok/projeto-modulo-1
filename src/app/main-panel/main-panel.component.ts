@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TransactionsListComponent } from './pages/transactions-list/transactions-list.component';
 import { Pages } from '../constants/pages.enum';
-import { CreditComponent } from './pages/credit/credit.component';
-import { ExtractComponent } from './pages/extract/extract.component';
+import { LoanComponent } from './pages/loan/loan.component';
+import { TransfersComponent } from './pages/transfers/transfers.component';
 import { RouterService } from '../core/services/router.service';
 import { AsyncPipe } from '@angular/common';
 
@@ -12,8 +12,8 @@ import { AsyncPipe } from '@angular/common';
   imports: [
     DashboardComponent,
     TransactionsListComponent,
-    CreditComponent,
-    ExtractComponent,
+    LoanComponent,
+    TransfersComponent,
     AsyncPipe,
   ],
   templateUrl: './main-panel.component.html',

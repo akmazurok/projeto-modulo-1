@@ -1,5 +1,8 @@
 .sidebar {
   display: flex;
+  width: 250px;
+  transition: width 0.3s ease;
+  flex-shrink: 0;
   flex-direction: column;
   height: calc(100vh - 64px);
   background-color: var(--secondary-color);
@@ -9,5 +12,5 @@
 
 .menu-item {
   margin-bottom: 10px;
-  border-radius: 2px;  
+  border-radius: 2px;
 }

@@ -11,16 +11,19 @@ import { RouterService } from '../core/services/router.service';
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
-  private readonly routerService = inject(RouterService);
+  private readonly routerService = inject(RouterService);  
 
   menuItems: MenuItem[] = [
     { label: 'Dashboard', selected: true, page: Pages.DASHBOARD },
-    { label: 'Extrato', selected: false, page: Pages.EXTRACT },
-    { label: 'Transferência', selected: false, page: Pages.TRANSACTIONS },
-    { label: 'Crédito', selected: false, page: Pages.CREDIT },
+    { label: 'Extrato', selected: false, page: Pages.TRANSACTIONS },
+    { label: 'Transferência', selected: false, page: Pages.TRANSFER },
+    { label: 'Crédito', selected: false, page: Pages.LOAN },
   ];
 
   redirectToPage(page: Pages): void {
     this.routerService.setCurrentPage(page);
   }
+
+  
+
 }

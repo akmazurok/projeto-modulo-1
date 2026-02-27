@@ -1,6 +1,6 @@
 export enum Pages {
     DASHBOARD = 'dashboard',
-    EXTRACT = 'extract',
+    TRANSFER = 'transfer',
     TRANSACTIONS = 'transactions',
-    CREDIT = 'credit'
+    LOAN = 'loan'
 }
