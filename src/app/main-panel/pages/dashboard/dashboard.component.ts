@@ -1,15 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { first } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { MatCardModule } from '@angular/material/card';
 import { Account } from './models/account.model';
 import { DashboardService } from './services/dashboard.service';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
 import { NegativeValuePipe } from '../../../shared/pipes/negative-value.pipe';
 import { TransactionsService } from '../transactions-list/services/transactions.service';
 import { TransactionTypes } from '../transactions-list/constants/transaction-types';
 import { Transaction } from '../transactions-list/models/transaction.model';
 import { SignedValuePipe } from '../../../shared/pipes/signed-value.pipe';
 import { ValueTypeColorPipe } from '../../../shared/pipes/value-type-color.pipe';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +22,7 @@ import { ValueTypeColorPipe } from '../../../shared/pipes/value-type-color.pipe'
     DatePipe,
     SignedValuePipe,
     ValueTypeColorPipe,
+    AsyncPipe,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
@@ -27,6 +30,7 @@ import { ValueTypeColorPipe } from '../../../shared/pipes/value-type-color.pipe'
 export class DashboardComponent implements OnInit {
   private readonly dashboardService = inject(DashboardService);
   private readonly transactionsService = inject(TransactionsService);
+  private readonly userService = inject(UserService);
 
   account?: Account;
   transactions: Transaction[] = [];
@@ -36,6 +40,8 @@ export class DashboardComponent implements OnInit {
     expense: 0,
     balance: 0,
   };
+  userName$ = this.userService.userName$;
+  firstName$ = this.userName$.pipe(map((name) => name?.split(' ')[0] || ''));
 
   ngOnInit() {
     this.getAccount();
@@ -46,6 +52,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getAccount().subscribe({
       next: (res: Account) => {
         this.account = res;
+        this.userService.setUserName(res.name);
       },
       error: (err) => {
         console.log(err);
