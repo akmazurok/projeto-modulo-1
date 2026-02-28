@@ -39,6 +39,27 @@
       "description": "Descrição da transação",
       "amount": 1500.85,
       "type": "expense"
+    },
+    {
+      "id": "1a0b",
+      "date": "2026-02-26T03:00:00.000Z",
+      "description": "asadsw",
+      "amount": 122,
+      "type": "income"
+    },
+    {
+      "id": "5fca",
+      "date": "2026-02-28",
+      "description": "teste",
+      "amount": 200,
+      "type": "income"
+    },
+    {
+      "id": "b0b2",
+      "date": "2026-02-28",
+      "description": "teste",
+      "amount": 20321,
+      "type": "expense"
     }
   ],
   "transfers": [],
