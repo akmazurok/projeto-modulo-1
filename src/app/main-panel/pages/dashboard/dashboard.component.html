@@ -52,7 +52,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (item of transactions; track $index) {
+                    @for (item of lastTransactions; track $index) {
                     <tr>
                         <td>{{ item.date | date: 'dd/MM/yyyy' }}</td>
                         <td>{{ item.description }}</td>

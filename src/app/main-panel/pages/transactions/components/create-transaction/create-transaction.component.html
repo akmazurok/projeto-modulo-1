@@ -1,5 +1,9 @@
 <div>
-  <h3 class="mb-4">Criar Transação</h3>
+  @if (id) {
+  <h4 class="mb-4">Editar Transação</h4>
+  } @else {
+  <h4 class="mb-4">Criar Transação</h4>
+  }
   <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
 
     <mat-form-field appearance="outline" class="w-100 mb-3">
@@ -33,6 +37,9 @@
     <div class="mt-3">
       <button type="submit" class="btn btn-primary me-2" [disabled]="transactionForm.invalid">
         Salvar
+      </button>
+      <button type="button" class="btn btn-outline-primary" (click)="backToList()">
+        Voltar
       </button>
     </div>
   </form>

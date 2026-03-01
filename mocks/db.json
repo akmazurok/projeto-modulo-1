@@ -34,32 +34,39 @@
       "type": "income"
     },
     {
-      "id": "40c3",
       "date": "2026-02-19",
-      "description": "Descrição da transação",
+      "description": "Aluguel",
       "amount": 1500.85,
-      "type": "expense"
+      "type": "expense",
+      "id": "40c3"
     },
     {
-      "id": "1a0b",
       "date": "2026-02-26T03:00:00.000Z",
-      "description": "asadsw",
-      "amount": 122,
-      "type": "income"
+      "description": "Academia",
+      "amount": 120,
+      "type": "expense",
+      "id": "1a0b"
     },
     {
-      "id": "5fca",
       "date": "2026-02-28",
-      "description": "teste",
+      "description": "Pix",
       "amount": 200,
-      "type": "income"
+      "type": "income",
+      "id": "5fca"
     },
     {
-      "id": "b0b2",
       "date": "2026-02-28",
-      "description": "teste",
-      "amount": 20321,
-      "type": "expense"
+      "description": "Parcela 25 de 60 carro",
+      "amount": 2032,
+      "type": "expense",
+      "id": "b0b2"
+    },
+    {
+      "date": "2026-02-28",
+      "description": "Xerox",
+      "amount": 0.25,
+      "type": "expense",
+      "id": "ddf0"
     }
   ],
   "transfers": [],

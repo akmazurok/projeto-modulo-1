@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -14,6 +14,9 @@ import { Transaction } from '../../models/transaction.model';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { NgxCurrencyDirective } from 'ngx-currency';
+import { first } from 'rxjs/operators';
+import { RouterService } from '../../../../../core/services/router.service';
+import { TransactionPages } from '../../constants/transaction-pages';
 
 @Component({
   selector: 'app-create-transaction',
@@ -23,7 +26,6 @@ import { NgxCurrencyDirective } from 'ngx-currency';
     MatSelectModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-
     NgxCurrencyDirective,
   ],
   providers: [provideNativeDateAdapter()],
@@ -32,6 +34,9 @@ import { NgxCurrencyDirective } from 'ngx-currency';
 })
 export class CreateTransactionComponent {
   private readonly transactionsService = inject(TransactionsService);
+  private readonly routerService = inject(RouterService);
+
+  @Input() id?: string;
 
   transactionForm!: FormGroup;
   transactionTypesEnum = TransactionTypes;
@@ -46,8 +51,18 @@ export class CreateTransactionComponent {
     align: 'left',
   };
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.buildForm();
+
+    if (this.id) {
+      this.getTransactionById();
+    }
+
+    this.transactionForm
+      .get('date')
+      ?.valueChanges.subscribe(() =>
+        console.log(this.transactionForm.get('date')),
+      );
   }
 
   buildForm(): void {
@@ -55,7 +70,7 @@ export class CreateTransactionComponent {
       date: new FormControl(this.todayISO, Validators.required),
       description: new FormControl(null, [
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(3),
         Validators.maxLength(100),
       ]),
       amount: new FormControl(null, Validators.required),
@@ -63,14 +78,28 @@ export class CreateTransactionComponent {
     });
   }
 
+  getTransactionById(): void {
+    this.transactionsService
+      .getTransactionById(this.id!)
+      .pipe(first())
+      .subscribe({
+        next: (transaction) => {
+          this.transactionForm.patchValue(transaction);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
   onSubmit(): void {
     const payload: Transaction = this.transactionForm.getRawValue();
-    /* 
+
     if (this.id) {
       this.updateTransaction(payload);
       return;
     }
- */
+
     this.saveTransaction(payload);
   }
 
@@ -85,7 +114,7 @@ export class CreateTransactionComponent {
     });
   }
 
-  /*  updateTransaction(payload: Transaction): void {
+  updateTransaction(payload: Transaction): void {
     this.transactionsService
       .updateTransaction(payload, this.id!)
       .pipe(first())
@@ -98,5 +127,9 @@ export class CreateTransactionComponent {
           console.log(err);
         },
       });
-    } */
+  }
+
+  backToList(): void {
+    this.routerService.setTransactionPage(TransactionPages.LIST);
+  }
 }

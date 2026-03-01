@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
 
   account?: Account;
   transactions: Transaction[] = [];
+  lastTransactions: Transaction[] = [];
   transactionTypesEnum = TransactionTypes;
   totals = {
     income: 0,
@@ -67,6 +68,7 @@ export class DashboardComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.transactions = res;
+          this.lastTransactions = this.transactions.slice(-5).reverse();
           this.totals = this.calculateTotals(this.transactions);
         },
         error: (err) => {
