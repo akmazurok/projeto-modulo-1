@@ -9,7 +9,7 @@ import { ValueTypeColorPipe } from '../../../../../shared/pipes/value-type-color
 import { SignedValuePipe } from '../../../../../shared/pipes/signed-value.pipe';
 import { RouterService } from '../../../../../core/services/router.service';
 import { TransactionPages } from '../../constants/transaction-pages';
-
+import { ConfirmDialogService } from '../../../../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-list-transactions',
@@ -20,6 +20,7 @@ import { TransactionPages } from '../../constants/transaction-pages';
 export class ListTransactionsComponent {
   private readonly transactionsService = inject(TransactionsService);
   private readonly routerService = inject(RouterService);
+  private readonly dialogService = inject(ConfirmDialogService);
 
   @Output() editEmitter = new EventEmitter<string>();
 
@@ -45,7 +46,7 @@ export class ListTransactionsComponent {
       });
   }
 
-   redirectToCreate(): void {
+  redirectToCreate(): void {
     this.routerService.setTransactionPage(TransactionPages.CREATE);
   }
 
@@ -55,17 +56,29 @@ export class ListTransactionsComponent {
   }
 
   onDelete(id: string): void {
-    
-    this.transactionsService
-      .deleteTransaction(id)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          this.getTransactions();
-        },
-        error: (err) => {
-          console.log(err);
-        },
+    this.dialogService
+      .confirm({
+        title: 'Confirmar exclusão',
+        message: 'Tem certeza que deseja excluir esta transação?',
+        type: 'warn',
+        confirmText: 'Excluir',
+        cancelText: 'Cancelar',
+      })
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.transactionsService
+            .deleteTransaction(id)
+            .pipe(first())
+            .subscribe({
+              next: () => {
+                this.dialogService.showMessage('Transação excluída com sucesso!', 'info');
+                this.getTransactions();
+              },  
+              error: (err) => {
+                console.log(err);
+              },
+            });
+        }
       });
   }
 }

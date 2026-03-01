@@ -17,6 +17,7 @@ import { NgxCurrencyDirective } from 'ngx-currency';
 import { first } from 'rxjs/operators';
 import { RouterService } from '../../../../../core/services/router.service';
 import { TransactionPages } from '../../constants/transaction-pages';
+import { ConfirmDialogService } from '../../../../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-create-transaction',
@@ -35,6 +36,7 @@ import { TransactionPages } from '../../constants/transaction-pages';
 export class CreateTransactionComponent {
   private readonly transactionsService = inject(TransactionsService);
   private readonly routerService = inject(RouterService);
+  private readonly dialogService = inject(ConfirmDialogService);
 
   @Input() id?: string;
 
@@ -106,7 +108,17 @@ export class CreateTransactionComponent {
   saveTransaction(transactionData: any): void {
     this.transactionsService.createTransaction(transactionData).subscribe({
       next: (res) => {
-        console.log('Transação executada com sucesso:', res);
+        this.dialogService
+          .confirm({
+            title: 'Sucesso',
+            message: 'Transação criada com sucesso!',
+            type: 'success',
+            confirmText: 'OK',
+            cancelText: '',
+          })
+          .subscribe(() => {
+            this.backToList();
+          });
       },
       error: (err) => {
         console.error(err);
@@ -120,8 +132,17 @@ export class CreateTransactionComponent {
       .pipe(first())
       .subscribe({
         next: () => {
-          console.log('Sucesso!');
-          this.backToList();
+           this.dialogService
+          .confirm({
+            title: 'Sucesso',
+            message: 'Transação editada com sucesso!',
+            type: 'success',
+            confirmText: 'OK',
+            cancelText: '',
+          })
+          .subscribe(() => {
+            this.backToList();
+          });
         },
         error: (err) => {
           console.log(err);

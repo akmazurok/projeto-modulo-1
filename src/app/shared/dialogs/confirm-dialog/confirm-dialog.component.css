@@ -1,0 +1,17 @@
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.icon-warn {
+  color: #f44336;
+}
+
+.icon-info {
+  color: #2196f3;
+}
+
+.icon-success {
+  color: #4caf50;
+}
