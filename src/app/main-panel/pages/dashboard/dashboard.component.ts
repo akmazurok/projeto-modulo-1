@@ -12,6 +12,9 @@ import { Transaction } from '../transactions/models/transaction.model';
 import { SignedValuePipe } from '../../../shared/pipes/signed-value.pipe';
 import { ValueTypeColorPipe } from '../../../shared/pipes/value-type-color.pipe';
 import { UserService } from '../../../core/services/user.service';
+import { RouterService } from '../../../core/services/router.service';
+import { P } from '@angular/cdk/keycodes';
+import { Pages } from '../../../constants/pages.enum';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,6 +34,7 @@ export class DashboardComponent implements OnInit {
   private readonly dashboardService = inject(DashboardService);
   private readonly transactionsService = inject(TransactionsService);
   private readonly userService = inject(UserService);
+  private readonly router = inject(RouterService);
 
   account?: Account;
   transactions: Transaction[] = [];
@@ -97,4 +101,8 @@ export class DashboardComponent implements OnInit {
       },
     );
   }
+
+  redirectToTransactions(): void {
+    this.router.setCurrentPage(Pages.TRANSACTIONS); 
+}
 }

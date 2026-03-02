@@ -52,7 +52,6 @@ export class ListTransactionsComponent {
 
   onEdit(id: string): void {
     this.editEmitter.emit(id);
-    //console.log(id);
   }
 
   onDelete(id: string): void {
@@ -71,9 +70,17 @@ export class ListTransactionsComponent {
             .pipe(first())
             .subscribe({
               next: () => {
-                this.dialogService.showMessage('Transação excluída com sucesso!', 'info');
-                this.getTransactions();
-              },  
+                this.dialogService
+                  .confirm({
+                    title: 'Excluído',
+                    message: 'A transação foi excluída com sucesso.',
+                    type: 'success',
+                    confirmText: 'OK',
+                  })
+                  .subscribe(() => {
+                    this.getTransactions();
+                  });
+              },
               error: (err) => {
                 console.log(err);
               },

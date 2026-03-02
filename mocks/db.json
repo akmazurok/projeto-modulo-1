@@ -62,11 +62,11 @@
       "id": "b0b2"
     },
     {
-      "id": "ee02",
-      "date": "2026-03-01",
+      "date": "2026-02-11T03:00:00.000Z",
       "description": "teste",
-      "amount": 20,
-      "type": "income"
+      "amount": 12.2,
+      "type": "expense",
+      "id": "54c8"
     }
   ],
   "transfers": [],

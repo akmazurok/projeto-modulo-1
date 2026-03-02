@@ -6,3 +6,8 @@
 .card-balance {
    background-color: var(--secondary-color);
 }
+
+.table-responsive {
+    max-height: 300px;
+    overflow-y: auto;
+}

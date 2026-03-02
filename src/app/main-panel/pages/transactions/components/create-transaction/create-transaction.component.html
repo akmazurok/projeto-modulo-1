@@ -9,22 +9,36 @@
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Descrição</mat-label>
       <input matInput formControlName="description" placeholder="Descreva a transação">
+      @if (this.transactionForm.get("description")?.errors?.["required"]){
+      <mat-error>
+        A descrição é obrigatória.
+      </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Valor</mat-label>
       <input matInput placeholder="Valor da transação" formControlName="amount" currencyMask
         [currencyMask]="currencyOptions" />
+      @if (this.transactionForm.get("amount")?.errors?.["required"]){
+      <mat-error>
+        O valor é obrigatório.
+      </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Tipo</mat-label>
-
       <mat-select formControlName="type">
         <mat-option [value]="null" selected>- Selecione</mat-option>
         <mat-option [value]="transactionTypesEnum.INCOME">Entrada</mat-option>
         <mat-option [value]="transactionTypesEnum.EXPENSE">Saída</mat-option>
       </mat-select>
+      @if (this.transactionForm.get("type")?.errors?.["required"]){
+      <mat-error>
+        O tipo é obrigatório.
+      </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
@@ -32,6 +46,17 @@
       <input matInput formControlName="date" [matDatepicker]="picker">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      @if (this.transactionForm.get("date")?.errors?.["required"]){
+      <mat-error>
+        A data é obrigatória.
+      </mat-error>
+      }
+      @if (this.transactionForm.get("date")?.errors?.["futureDate"]){
+      <mat-error>
+        A data não pode ser futura.
+      </mat-error>
+      }
+
     </mat-form-field>
 
     <div class="mt-3">

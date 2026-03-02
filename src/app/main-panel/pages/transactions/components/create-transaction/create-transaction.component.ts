@@ -18,6 +18,7 @@ import { first } from 'rxjs/operators';
 import { RouterService } from '../../../../../core/services/router.service';
 import { TransactionPages } from '../../constants/transaction-pages';
 import { ConfirmDialogService } from '../../../../../shared/services/confirm-dialog.service';
+import { dateNotInFuture } from '../../../../../shared/validators/date.validator';
 
 @Component({
   selector: 'app-create-transaction',
@@ -69,7 +70,7 @@ export class CreateTransactionComponent {
 
   buildForm(): void {
     this.transactionForm = new FormGroup({
-      date: new FormControl(this.todayISO, Validators.required),
+      date: new FormControl(this.todayISO, [Validators.required, dateNotInFuture]),
       description: new FormControl(null, [
         Validators.required,
         Validators.minLength(3),
