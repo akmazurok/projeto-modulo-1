@@ -67,8 +67,44 @@
       "amount": 12.2,
       "type": "expense",
       "id": "54c8"
+    },
+    {
+      "id": "",
+      "date": "2026-03-03",
+      "description": "Transferência para 3023",
+      "amount": 20,
+      "type": "expense"
     }
   ],
-  "transfers": [],
+  "transfers": [
+    {
+      "id": "c290",
+      "date": "2026-03-02",
+      "toAccountId": "45464",
+      "amount": 30.2,
+      "description": "transf"
+    },
+    {
+      "id": "5bc2",
+      "date": "2026-03-02",
+      "toAccountId": "23023",
+      "amount": 12.3,
+      "description": "reste"
+    },
+    {
+      "id": "7c2e",
+      "date": "2026-03-02",
+      "toAccountId": "23003",
+      "amount": 30,
+      "description": "Transferência box"
+    },
+    {
+      "id": "3aa9",
+      "date": "2026-03-03",
+      "toAccountId": "3023",
+      "amount": 20,
+      "description": "pagamento"
+    }
+  ],
   "loans": []
 }

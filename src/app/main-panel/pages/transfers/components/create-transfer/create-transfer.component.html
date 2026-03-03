@@ -1,0 +1,43 @@
+<div class="p-3">
+    <h4 class="mb-4">Transferência</h4>
+
+    <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="outline" class="w-100 mb-3">
+            <mat-label>Conta Destino</mat-label>
+            <input matInput formControlName="toAccountId" placeholder="Digite a conta destino">
+            @if (this.transferForm.get("toAccountId")?.errors?.["required"]){
+            <mat-error>
+                A conta destino é obrigatória.
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100 mb-3">
+            <mat-label>Valor</mat-label>
+            <input matInput placeholder="Valor da transação" formControlName="amount" currencyMask
+                [currencyMask]="currencyOptions" />
+            @if (this.transferForm.get("amount")?.errors?.["required"]){
+            <mat-error>
+                O valor é obrigatório.
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100 mb-3">
+            <mat-label>Descrição</mat-label>
+            <input matInput formControlName="description" placeholder="Descreva a transação">
+            @if (this.transferForm.get("description")?.errors?.["required"]){
+            <mat-error>
+                A descrição é obrigatória.
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary me-2" [disabled]="transferForm.invalid">
+                Transferir
+            </button>
+        </div>
+    </form>
+</div>

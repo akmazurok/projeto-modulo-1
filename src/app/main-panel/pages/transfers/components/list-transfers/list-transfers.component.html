@@ -1,0 +1,31 @@
+<div class="row p-3">
+    <div class="col">
+        <div class="mb-3">
+            <button class="btn btn-primary" (click)="redirectToCreate()">
+                Nova Transferência
+            </button>
+        </div>
+        <h4>Transferências</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Conta de destino</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (item of transfers; track $index) {
+                <tr>
+                    <td>{{ item.date | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ item.toAccountId }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.amount |currency }}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
