@@ -50,3 +50,9 @@ Na tela de transferência aparecem as transferências realizadas e a opção par
 
 Na tela de crédito é possível realizar a simulação de empréstimos. Ao digitar os dados no formulário, o sistema retornará todas as informações da simulação.
 ![alt text](image-5.png)
+
+
+## Melhorias a serem implementadas
+- Paginação para as tabelas que mostram os dados
+- Separação dos calculos de atualização do saldo da conta em uma service específica
+- Mover funções de cálculos para componentes separados 
