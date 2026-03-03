@@ -1,15 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../constants/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private readonly http = inject(HttpClient);
+
   private userNameSubject = new BehaviorSubject<string>(
     sessionStorage.getItem('userName') || '',
   );
+  private userBalanceSubject = new BehaviorSubject<string>(
+    sessionStorage.getItem('userBalance') || '',
+  );
 
   userName$ = this.userNameSubject.asObservable();
+  userBalance$ = this.userBalanceSubject.asObservable();
 
   setUserName(name: string) {
     sessionStorage.setItem('userName', name);
@@ -19,5 +27,25 @@ export class UserService {
   clearUserName() {
     sessionStorage.removeItem('userName');
     this.userNameSubject.next('');
+  }
+
+  getUserBalance() {
+    return this.http.get<{ balance: number }>(
+      `${environment.apiUrl}/account`,
+    );
+  }
+
+  updateUserBalance(balance: number) {
+    return this.http
+      .patch(`${environment.apiUrl}/account`, { balance })
+      .subscribe({
+        next: () => {        
+          sessionStorage.setItem('userBalance', balance.toString());
+          this.userBalanceSubject.next(balance.toString());
+        },
+        error: (error) => {
+          console.error('Error updating balance:', error);
+        },
+      });
   }
 }

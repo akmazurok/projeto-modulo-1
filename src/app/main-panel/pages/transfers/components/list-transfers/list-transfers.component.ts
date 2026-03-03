@@ -6,10 +6,11 @@ import { first } from 'rxjs/operators';
 import { Transfer } from '../../models/transfer.model';
 import { RouterService } from '../../../../../core/services/router.service';
 import { TransferPages } from '../../constants/transfer-pages';
+import { AccountMaskPipe } from '../../../../../shared/pipes/account-mask.pipe';
 
 @Component({
   selector: 'app-list-transfers',
-  imports: [DatePipe, CurrencyPipe],
+  imports: [DatePipe, CurrencyPipe, AccountMaskPipe],
   templateUrl: './list-transfers.component.html',
   styleUrl: './list-transfers.component.css',
 })

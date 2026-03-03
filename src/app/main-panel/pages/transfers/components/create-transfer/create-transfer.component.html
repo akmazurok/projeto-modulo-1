@@ -5,7 +5,7 @@
 
         <mat-form-field appearance="outline" class="w-100 mb-3">
             <mat-label>Conta Destino</mat-label>
-            <input matInput formControlName="toAccountId" placeholder="Digite a conta destino">
+            <input matInput formControlName="toAccountId" placeholder="Digite a conta destino" mask="0000-0">
             @if (this.transferForm.get("toAccountId")?.errors?.["required"]){
             <mat-error>
                 A conta destino é obrigatória.
@@ -20,6 +20,11 @@
             @if (this.transferForm.get("amount")?.errors?.["required"]){
             <mat-error>
                 O valor é obrigatório.
+            </mat-error>            
+            }
+            @if (this.transferForm.get("amount")?.errors?.["insufficientBalance"]){
+            <mat-error>
+                Saldo insuficiente para esta transferência.
             </mat-error>
             }
         </mat-form-field>

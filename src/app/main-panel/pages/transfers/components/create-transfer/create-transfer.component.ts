@@ -18,6 +18,9 @@ import { TransactionsService } from '../../../transactions/services/transactions
 import { TransactionTypes } from '../../../transactions/constants/transaction-types';
 import { RouterService } from '../../../../../core/services/router.service';
 import { TransferPages } from '../../constants/transfer-pages';
+import { NgxMaskDirective } from 'ngx-mask';
+import { UserService } from '../../../../../core/services/user.service';
+import { amountLessThanBalance } from '../../../../../shared/validators/amount.validator';
 
 @Component({
   selector: 'app-create-transfer',
@@ -28,6 +31,7 @@ import { TransferPages } from '../../constants/transfer-pages';
     ReactiveFormsModule,
     MatDatepickerModule,
     NgxCurrencyDirective,
+    NgxMaskDirective,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './create-transfer.component.html',
@@ -38,9 +42,11 @@ export class CreateTransferComponent {
   private readonly dialogService = inject(ConfirmDialogService);
   private readonly transactionsService = inject(TransactionsService);
   private readonly routerService = inject(RouterService);
+  private readonly userService = inject(UserService);
 
   transferForm!: FormGroup;
   todayISO = new Date().toISOString().split('T')[0];
+  userBalance: number = 0;
 
   currencyOptions = {
     prefix: 'R$ ',
@@ -51,20 +57,35 @@ export class CreateTransferComponent {
     align: 'left',
   };
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.buildForm();
   }
 
   buildForm(): void {
+    this.getUserBalance();
     this.transferForm = new FormGroup({
       date: new FormControl(this.todayISO),
       toAccountId: new FormControl(null, Validators.required),
-      amount: new FormControl(null, Validators.required),
+      amount: new FormControl(null, [
+        Validators.required,
+        amountLessThanBalance(() => this.userBalance),
+      ]),
       description: new FormControl(null, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100),
       ]),
+    });
+  }
+
+  getUserBalance(): void {
+    this.userService.getUserBalance().subscribe({
+      next: (res) => {
+        this.userBalance = res.balance;        
+      },
+      error: (err) => {
+        console.error('Erro ao obter saldo do usuário:', err);
+      },
     });
   }
 

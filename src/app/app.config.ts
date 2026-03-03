@@ -20,6 +20,3 @@ export const appConfig: ApplicationConfig = {
     provideEnvironmentNgxMask()
   ],
 };
-
-
-// ver se precisa quando for usar o mat form { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },

@@ -13,7 +13,6 @@ import { SignedValuePipe } from '../../../shared/pipes/signed-value.pipe';
 import { ValueTypeColorPipe } from '../../../shared/pipes/value-type-color.pipe';
 import { UserService } from '../../../core/services/user.service';
 import { RouterService } from '../../../core/services/router.service';
-import { P } from '@angular/cdk/keycodes';
 import { Pages } from '../../../constants/pages.enum';
 
 @Component({
@@ -90,7 +89,8 @@ export class DashboardComponent implements OnInit {
           acc.expense += t.amount;
         }
 
-        acc.balance = acc.income - acc.expense;
+        acc.balance = acc.income - acc.expense;       
+        this.userService.updateUserBalance(acc.balance);
 
         return acc;
       },
@@ -103,6 +103,6 @@ export class DashboardComponent implements OnInit {
   }
 
   redirectToTransactions(): void {
-    this.router.setCurrentPage(Pages.TRANSACTIONS); 
-}
+    this.router.setCurrentPage(Pages.TRANSACTIONS);
+  }
 }

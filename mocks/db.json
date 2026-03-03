@@ -2,7 +2,7 @@
   "account": {
     "id": 1,
     "name": "João Silva",
-    "balance": 5230.75
+    "balance": 2456.75
   },
   "transactions": [
     {
@@ -50,7 +50,7 @@
     {
       "date": "2026-02-28",
       "description": "Pix",
-      "amount": 200,
+      "amount": 900,
       "type": "income",
       "id": "5fca"
     },
@@ -62,16 +62,9 @@
       "id": "b0b2"
     },
     {
-      "date": "2026-02-11T03:00:00.000Z",
-      "description": "teste",
-      "amount": 12.2,
-      "type": "expense",
-      "id": "54c8"
-    },
-    {
       "id": "",
       "date": "2026-03-03",
-      "description": "Transferência para 3023",
+      "description": "Transferência para cc 30232",
       "amount": 20,
       "type": "expense"
     }
@@ -82,28 +75,28 @@
       "date": "2026-03-02",
       "toAccountId": "45464",
       "amount": 30.2,
-      "description": "transf"
+      "description": "Hotel"
     },
     {
       "id": "5bc2",
       "date": "2026-03-02",
       "toAccountId": "23023",
       "amount": 12.3,
-      "description": "reste"
+      "description": "Mesada"
     },
     {
       "id": "7c2e",
       "date": "2026-03-02",
       "toAccountId": "23003",
       "amount": 30,
-      "description": "Transferência box"
+      "description": "Pagamento"
     },
     {
       "id": "3aa9",
       "date": "2026-03-03",
-      "toAccountId": "3023",
+      "toAccountId": "30232",
       "amount": 20,
-      "description": "pagamento"
+      "description": "Diária"
     }
   ],
   "loans": []
