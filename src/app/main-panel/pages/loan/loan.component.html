@@ -1,1 +1,98 @@
-<p>credit works!</p>
+<div class="p-3">
+    <h4 class="mb-4">Simulação de Crédito</h4>
+
+    <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="outline" class="w-80 mb-3">
+            <mat-label>Valor desejado</mat-label>
+            <input matInput formControlName="valor" placeholder="Valor desejado" currencyMask
+                [currencyMask]="currencyOptions" />
+            @if (this.loanForm.get("valor")?.errors?.["required"]){
+            <mat-error>
+                O valor desejado é obrigatório.
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-40 p-1">
+            <mat-label>Quantidade de parcelas</mat-label>
+            <input matInput formControlName="parcelas" placeholder="Quantidade de parcelas" type="number">
+            @if (this.loanForm.get("parcelas")?.errors?.["required"]){
+            <mat-error>
+                A quantidade de parcelas é obrigatória.
+            </mat-error>
+            }
+            @if (this.loanForm.get("parcelas")?.errors?.["min"]){
+            <mat-error>
+                A quantidade de parcelas deve ser maior que zero.
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-80 p-1">
+            <mat-label>Tipo</mat-label>
+            <mat-select formControlName="tipo">
+
+                @for (loan of loanTypes; track loan.type) {
+                <mat-option [value]="loan">
+                    {{ loan.label }} - {{ loan.interestRate }}%
+                </mat-option>
+                }
+            </mat-select>
+            @if (this.loanForm.get("tipo")?.errors?.["required"]){
+            <mat-error>
+                O tipo de empréstimo é obrigatório.
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-50 p-1">
+            <mat-label>Valor Total</mat-label>
+            <input matInput formControlName="valorTotal" readonly currencyMask [currencyMask]="currencyOptions">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-50 p-1">
+            <mat-label>Valor da Parcela</mat-label>
+            <input matInput formControlName="valorParcela" readonly currencyMask [currencyMask]="currencyOptions">
+        </mat-form-field>
+
+    </form>
+
+    @if (simulacao) {
+    <div class="p-3">
+        <h5 class="mb-3">Detalhes da Simulação</h5>
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>Valor Solicitado:</td>
+                    <td>{{ simulacao.valorPrincipal | currency:'BRL':'symbol':'1.2-2' }}</td>
+                </tr>
+                <tr>
+                    <td>Taxa de Juros (a.a.):</td>
+                    <td>{{ simulacao.taxaAnual }}%</td>
+                </tr>
+                <tr>
+                    <td>Taxa Mensal:</td>
+                    <td>{{ simulacao.taxaMensal | number:'1.4-4' }}%</td>
+                </tr>
+                <tr>
+                    <td>Número de Parcelas:</td>
+                    <td>{{ simulacao.numeroParcelas }}</td>
+                </tr>
+                <tr class="table-info">
+                    <td>Valor da Parcela:</td>
+                    <td>{{ simulacao.valorParcela | currency }}</td>
+                </tr>
+                <tr>
+                    <td>Juros Total:</td>
+                    <td>{{ simulacao.jurosTotal | currency }}</td>
+                </tr>
+                <tr class="table-warning">
+                    <td>Valor Total a Pagar:</td>
+                    <td>{{ simulacao.valorTotal | currency }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    }
+</div>
