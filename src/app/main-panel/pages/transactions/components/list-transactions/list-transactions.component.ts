@@ -1,4 +1,4 @@
-import { Component, inject, Output, EventEmitter } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TransactionsService } from '../../services/transactions.service';
 import { Transaction } from '../../models/transaction.model';
 import { TransactionTypes } from '../../constants/transaction-types';
@@ -7,9 +7,8 @@ import { DatePipe } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
 import { ValueTypeColorPipe } from '../../../../../shared/pipes/value-type-color.pipe';
 import { SignedValuePipe } from '../../../../../shared/pipes/signed-value.pipe';
-import { RouterService } from '../../../../../core/services/router.service';
-import { TransactionPages } from '../../constants/transaction-pages';
 import { ConfirmDialogService } from '../../../../../shared/services/confirm-dialog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-transactions',
@@ -19,14 +18,11 @@ import { ConfirmDialogService } from '../../../../../shared/services/confirm-dia
 })
 export class ListTransactionsComponent {
   private readonly transactionsService = inject(TransactionsService);
-  private readonly routerService = inject(RouterService);
   private readonly dialogService = inject(ConfirmDialogService);
-
-  @Output() editEmitter = new EventEmitter<string>();
+  private readonly router = inject(Router);
 
   transactions: Transaction[] = [];
   transactionTypesEnum = TransactionTypes;
-  transactionPagesEnum = TransactionPages;
 
   ngOnInit() {
     this.getTransactions();
@@ -47,11 +43,11 @@ export class ListTransactionsComponent {
   }
 
   redirectToCreate(): void {
-    this.routerService.setTransactionPage(TransactionPages.CREATE);
+    this.router.navigate(['/transacoes/criar']);
   }
 
   onEdit(id: string): void {
-    this.editEmitter.emit(id);
+    this.router.navigate(['/transacoes/editar', id]);
   }
 
   onDelete(id: string): void {

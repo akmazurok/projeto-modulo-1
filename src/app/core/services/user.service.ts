@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../constants/environment';
+import { Account } from '../../models/account.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,22 +31,24 @@ export class UserService {
   }
 
   getUserBalance() {
-    return this.http.get<{ balance: number }>(
-      `${environment.apiUrl}/account`,
-    );
+    return this.http.get<{ balance: number }>(`${environment.apiUrl}/account`);
   }
 
   updateUserBalance(balance: number) {
     return this.http
       .patch(`${environment.apiUrl}/account`, { balance })
       .subscribe({
-        next: () => {        
+        next: () => {
           sessionStorage.setItem('userBalance', balance.toString());
           this.userBalanceSubject.next(balance.toString());
         },
         error: (error) => {
-          console.error('Error updating balance:', error);
+          console.error(error);
         },
       });
+  }
+
+  getAccount(): Observable<Account> {
+    return this.http.get<Account>(`${environment.apiUrl}/account`);
   }
 }

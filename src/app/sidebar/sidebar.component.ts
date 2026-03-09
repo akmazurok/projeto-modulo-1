@@ -1,29 +1,32 @@
-import { Component, inject } from '@angular/core';
-import { Pages } from '../constants/pages.enum';
+import { Component } from '@angular/core';
+
 import { MenuItem } from '../models/menu-item.model';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterService } from '../core/services/router.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, RouterModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
-  private readonly routerService = inject(RouterService);  
-
   menuItems: MenuItem[] = [
-    { label: 'Dashboard', selected: true, page: Pages.DASHBOARD },
-    { label: 'Extrato', selected: false, page: Pages.TRANSACTIONS },
-    { label: 'Transferência', selected: false, page: Pages.TRANSFER },
-    { label: 'Crédito', selected: false, page: Pages.LOAN },
+    {
+      label: 'Dashboard',
+      routerLinkActive: 'active',
+      routerLink: '/dashboard',
+    },
+    {
+      label: 'Extrato',
+      routerLinkActive: 'active',
+      routerLink: '/transacoes',
+    },
+    {
+      label: 'Transferência',
+      routerLinkActive: 'active',
+      routerLink: '/transferencia',
+    },
+    { label: 'Crédito', routerLinkActive: 'active', routerLink: '/credito' },
   ];
-
-  redirectToPage(page: Pages): void {
-    this.routerService.setCurrentPage(page);
-  }
-
-  
-
 }

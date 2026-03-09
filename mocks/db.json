@@ -2,7 +2,7 @@
   "account": {
     "id": 1,
     "name": "João Silva",
-    "balance": 5229.6
+    "balance": 2576.75
   },
   "transactions": [
     {
@@ -39,13 +39,6 @@
       "amount": 1500.85,
       "type": "expense",
       "id": "40c3"
-    },
-    {
-      "date": "2026-02-26T03:00:00.000Z",
-      "description": "Academia",
-      "amount": 120,
-      "type": "expense",
-      "id": "1a0b"
     },
     {
       "date": "2026-02-28",

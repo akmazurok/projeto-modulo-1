@@ -2,8 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { first } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatCardModule } from '@angular/material/card';
-import { Account } from './models/account.model';
-import { DashboardService } from './services/dashboard.service';
+import { Account } from '../../../models/account.model';
 import { AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
 import { NegativeValuePipe } from '../../../shared/pipes/negative-value.pipe';
 import { TransactionsService } from '../transactions/services/transactions.service';
@@ -12,8 +11,7 @@ import { Transaction } from '../transactions/models/transaction.model';
 import { SignedValuePipe } from '../../../shared/pipes/signed-value.pipe';
 import { ValueTypeColorPipe } from '../../../shared/pipes/value-type-color.pipe';
 import { UserService } from '../../../core/services/user.service';
-import { RouterService } from '../../../core/services/router.service';
-import { Pages } from '../../../constants/pages.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,10 +28,9 @@ import { Pages } from '../../../constants/pages.enum';
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
-  private readonly dashboardService = inject(DashboardService);
   private readonly transactionsService = inject(TransactionsService);
   private readonly userService = inject(UserService);
-  private readonly router = inject(RouterService);
+  private readonly router = inject(Router);
 
   account?: Account;
   transactions: Transaction[] = [];
@@ -53,7 +50,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getAccount(): void {
-    this.dashboardService.getAccount().subscribe({
+    this.userService.getAccount().subscribe({
       next: (res: Account) => {
         this.account = res;
         this.userService.setUserName(res.name);
@@ -89,7 +86,7 @@ export class DashboardComponent implements OnInit {
           acc.expense += t.amount;
         }
 
-        acc.balance = acc.income - acc.expense;       
+        acc.balance = acc.income - acc.expense;
         this.userService.updateUserBalance(acc.balance);
 
         return acc;
@@ -102,7 +99,7 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  redirectToTransactions(): void {
-    this.router.setCurrentPage(Pages.TRANSACTIONS);
+  navigateToTransactions(): void {
+    this.router.navigate(['/transacoes']);
   }
 }

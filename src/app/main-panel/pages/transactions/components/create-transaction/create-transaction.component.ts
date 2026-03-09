@@ -19,6 +19,7 @@ import { RouterService } from '../../../../../core/services/router.service';
 import { TransactionPages } from '../../constants/transaction-pages';
 import { ConfirmDialogService } from '../../../../../shared/services/confirm-dialog.service';
 import { dateNotInFuture } from '../../../../../shared/validators/date.validator';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-transaction',
@@ -36,9 +37,9 @@ import { dateNotInFuture } from '../../../../../shared/validators/date.validator
 })
 export class CreateTransactionComponent {
   private readonly transactionsService = inject(TransactionsService);
-  private readonly routerService = inject(RouterService);
   private readonly dialogService = inject(ConfirmDialogService);
-
+  private readonly router = inject(Router);
+  
   @Input() id?: string;
 
   transactionForm!: FormGroup;
@@ -70,7 +71,10 @@ export class CreateTransactionComponent {
 
   buildForm(): void {
     this.transactionForm = new FormGroup({
-      date: new FormControl(this.todayISO, [Validators.required, dateNotInFuture]),
+      date: new FormControl(this.todayISO, [
+        Validators.required,
+        dateNotInFuture,
+      ]),
       description: new FormControl(null, [
         Validators.required,
         Validators.minLength(3),
@@ -133,17 +137,17 @@ export class CreateTransactionComponent {
       .pipe(first())
       .subscribe({
         next: () => {
-           this.dialogService
-          .confirm({
-            title: 'Sucesso',
-            message: 'Transação editada com sucesso!',
-            type: 'success',
-            confirmText: 'OK',
-            cancelText: '',
-          })
-          .subscribe(() => {
-            this.backToList();
-          });
+          this.dialogService
+            .confirm({
+              title: 'Sucesso',
+              message: 'Transação editada com sucesso!',
+              type: 'success',
+              confirmText: 'OK',
+              cancelText: '',
+            })
+            .subscribe(() => {
+              this.backToList();
+            });
         },
         error: (err) => {
           console.log(err);
@@ -152,6 +156,6 @@ export class CreateTransactionComponent {
   }
 
   backToList(): void {
-    this.routerService.setTransactionPage(TransactionPages.LIST);
+    this.router.navigate(['/transacoes']);
   }
 }

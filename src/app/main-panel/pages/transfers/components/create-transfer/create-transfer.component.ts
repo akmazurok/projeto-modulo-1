@@ -17,10 +17,10 @@ import { ConfirmDialogService } from '../../../../../shared/services/confirm-dia
 import { TransactionsService } from '../../../transactions/services/transactions.service';
 import { TransactionTypes } from '../../../transactions/constants/transaction-types';
 import { RouterService } from '../../../../../core/services/router.service';
-import { TransferPages } from '../../constants/transfer-pages';
 import { NgxMaskDirective } from 'ngx-mask';
 import { UserService } from '../../../../../core/services/user.service';
 import { amountLessThanBalance } from '../../../../../shared/validators/amount.validator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-transfer',
@@ -40,9 +40,9 @@ import { amountLessThanBalance } from '../../../../../shared/validators/amount.v
 export class CreateTransferComponent {
   private readonly transferService = inject(TransfersService);
   private readonly dialogService = inject(ConfirmDialogService);
-  private readonly transactionsService = inject(TransactionsService);
-  private readonly routerService = inject(RouterService);
+  private readonly transactionsService = inject(TransactionsService);  
   private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
 
   transferForm!: FormGroup;
   todayISO = new Date().toISOString().split('T')[0];
@@ -57,7 +57,7 @@ export class CreateTransferComponent {
     align: 'left',
   };
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.buildForm();
   }
 
@@ -81,7 +81,7 @@ export class CreateTransferComponent {
   getUserBalance(): void {
     this.userService.getUserBalance().subscribe({
       next: (res) => {
-        this.userBalance = res.balance;        
+        this.userBalance = res.balance;
       },
       error: (err) => {
         console.error('Erro ao obter saldo do usuário:', err);
@@ -137,6 +137,6 @@ export class CreateTransferComponent {
   }
 
   backToList(): void {
-    this.routerService.setTransferPage(TransferPages.LIST);
+    this.router.navigate(['/transferencia']);
   }
 }

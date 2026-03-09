@@ -4,9 +4,8 @@ import { CurrencyPipe } from '@angular/common';
 import { TransfersService } from '../../services/transfers.service';
 import { first } from 'rxjs/operators';
 import { Transfer } from '../../models/transfer.model';
-import { RouterService } from '../../../../../core/services/router.service';
-import { TransferPages } from '../../constants/transfer-pages';
 import { AccountMaskPipe } from '../../../../../shared/pipes/account-mask.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-transfers',
@@ -16,7 +15,7 @@ import { AccountMaskPipe } from '../../../../../shared/pipes/account-mask.pipe';
 })
 export class ListTransfersComponent {
   private readonly transfersService = inject(TransfersService);
-  private readonly routerService = inject(RouterService);
+  private readonly router = inject(Router);
 
   transfers: Transfer[] = [];
 
@@ -39,7 +38,6 @@ export class ListTransfersComponent {
   }
 
   redirectToCreate(): void {
-    this.routerService.setTransferPage(TransferPages.CREATE);
+    this.router.navigate(['/transferencia/criar']);
   }
-  
 }

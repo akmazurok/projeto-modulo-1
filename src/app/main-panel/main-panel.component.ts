@@ -1,21 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { Pages } from '../constants/pages.enum';
-import { LoanComponent } from './pages/loan/loan.component';
-import { TransfersComponent } from './pages/transfers/transfers.component';
 import { RouterService } from '../core/services/router.service';
-import { AsyncPipe } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-main-panel',
-  imports: [
-    DashboardComponent,
-    TransactionsComponent,
-    LoanComponent,
-    TransfersComponent,
-    AsyncPipe,
-  ],
+  imports: [RouterOutlet],
   templateUrl: './main-panel.component.html',
   styleUrl: './main-panel.component.css',
 })
