@@ -17,6 +17,7 @@ export class SidebarComponent {
       routerLinkActive: 'active',
       routerLink: '/dashboard',
     },
+    { label: 'Perfil', routerLinkActive: 'active', routerLink: '/perfil' },
     {
       label: 'Extrato',
       routerLinkActive: 'active',
