@@ -30,6 +30,10 @@ export class UserService {
     this.userNameSubject.next('');
   }
 
+  getAccount(): Observable<Account> {
+    return this.http.get<Account>(`${environment.apiUrl}/account`);
+  }
+
   getUserBalance() {
     return this.http.get<{ balance: number }>(`${environment.apiUrl}/account`);
   }
@@ -46,9 +50,5 @@ export class UserService {
           console.error(error);
         },
       });
-  }
-
-  getAccount(): Observable<Account> {
-    return this.http.get<Account>(`${environment.apiUrl}/account`);
   }
 }

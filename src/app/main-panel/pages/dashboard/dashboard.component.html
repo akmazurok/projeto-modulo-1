@@ -7,10 +7,19 @@
             <mat-card class="mat-primary">
                 <mat-card-header>
                     <h5>Saldo em Conta</h5>
+                    <button mat-icon-button class="custom-icon-button" (click)="toogleBalance()">
+                        <mat-icon>{{isBalanceVisible() ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
                 </mat-card-header>
                 <mat-card-content class="valor">
                     <p [class]="(totals.balance) | negativeValue">
-                        {{ totals.balance | currency }}
+                        @if (isBalanceVisible()) {
+                        {{ totals.balance | currency }}                       
+                        }
+                        @else {
+                        R$ *****
+                        }
+
                     </p>
                 </mat-card-content>
             </mat-card>
@@ -68,6 +77,6 @@
             <button class="btn btn-outline-primary btn-sm" (click)="navigateToTransactions()">
                 Ver mais...
             </button>
-        </div>
+        </div>       
     </div>
 </div>

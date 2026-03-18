@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -13,6 +13,8 @@ import { LoanService } from './services/loan.service';
 import { NgxCurrencyDirective } from 'ngx-currency';
 import { LoanType } from './models/loan-type.model';
 import { Loan } from './models/loan.model';
+import { MatCardModule } from '@angular/material/card';
+import { LoansimulatorComponent } from './components/loansimulator/loansimulator.component';
 
 @Component({
   selector: 'app-loan',
@@ -21,8 +23,10 @@ import { Loan } from './models/loan.model';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatCardModule,
     ReactiveFormsModule,
     NgxCurrencyDirective,
+    LoansimulatorComponent,
   ],
   templateUrl: './loan.component.html',
   styleUrl: './loan.component.css',
@@ -30,13 +34,13 @@ import { Loan } from './models/loan.model';
 export class LoanComponent {
   private readonly loanService = inject(LoanService);
 
+  loanLimit = signal(50000);
   loanForm!: FormGroup;
   simulacao: any = null;
   loan: Loan | null = null;
   loanTypes: LoanType[] = [
     { type: 'personal', label: 'Empréstimo Pessoal', interestRate: 2.5 },
-    { type: 'consigned', label: 'Consignado', interestRate: 1.2 },
-    { type: 'business', label: 'Empresarial', interestRate: 3.1 },
+    { type: 'consigned', label: 'Consignado', interestRate: 1.2 },    
   ];
 
   currencyOptions = {
@@ -47,6 +51,8 @@ export class LoanComponent {
     allowNegative: false,
     align: 'left',
   };
+
+ 
 
   ngOnInit(): void {
     this.buildForm();

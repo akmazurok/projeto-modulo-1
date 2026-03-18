@@ -11,6 +11,7 @@ import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 
+
 registerLocaleData(localePt, 'pt-BR');
 
 export const appConfig: ApplicationConfig = {

@@ -1,13 +1,19 @@
-.valor{
-    font-size: 2em;
-    font-weight: 500;
+.valor {
+  font-size: 2em;
+  font-weight: 500;
 }
 
 .card-balance {
-   background-color: var(--secondary-color);
+  background-color: var(--secondary-color);
 }
 
 .table-responsive {
-    max-height: 300px;
-    overflow-y: auto;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.custom-icon-button {
+  border: none !important;
+  color: var(--primary-color);
+  
 }

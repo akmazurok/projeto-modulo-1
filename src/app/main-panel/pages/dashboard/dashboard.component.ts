@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, effect } from '@angular/core';
 import { first } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatCardModule } from '@angular/material/card';
@@ -12,6 +12,9 @@ import { SignedValuePipe } from '../../../shared/pipes/signed-value.pipe';
 import { ValueTypeColorPipe } from '../../../shared/pipes/value-type-color.pipe';
 import { UserService } from '../../../core/services/user.service';
 import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+
+
 
 @Component({
   selector: 'app-dashboard',
@@ -23,6 +26,7 @@ import { Router } from '@angular/router';
     SignedValuePipe,
     ValueTypeColorPipe,
     AsyncPipe,
+    MatIconModule,   
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
@@ -44,9 +48,24 @@ export class DashboardComponent implements OnInit {
   userName$ = this.userService.userName$;
   firstName$ = this.userName$.pipe(map((name) => name?.split(' ')[0] || ''));
 
+  isBalanceVisible = signal(true);
+
+  constructor() {
+    effect(() => {
+      console.log(
+        'Extrato:',
+        this.isBalanceVisible(),
+      );
+    });
+  }
+
   ngOnInit() {
     this.getAccount();
     this.getTransactions();
+  }
+
+  toogleBalance(): void {
+    this.isBalanceVisible.update((visible) => !visible);
   }
 
   getAccount(): void {

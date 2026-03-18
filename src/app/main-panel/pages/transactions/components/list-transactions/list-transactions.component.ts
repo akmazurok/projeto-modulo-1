@@ -9,6 +9,7 @@ import { ValueTypeColorPipe } from '../../../../../shared/pipes/value-type-color
 import { SignedValuePipe } from '../../../../../shared/pipes/signed-value.pipe';
 import { ConfirmDialogService } from '../../../../../shared/services/confirm-dialog.service';
 import { Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-list-transactions',
@@ -21,26 +22,11 @@ export class ListTransactionsComponent {
   private readonly dialogService = inject(ConfirmDialogService);
   private readonly router = inject(Router);
 
-  transactions: Transaction[] = [];
+  transactions = toSignal(this.transactionsService.getTransactions(), {
+    initialValue: [] as Transaction[],
+  });
+
   transactionTypesEnum = TransactionTypes;
-
-  ngOnInit() {
-    this.getTransactions();
-  }
-
-  getTransactions(): void {
-    this.transactionsService
-      .getTransactions()
-      .pipe(first())
-      .subscribe({
-        next: (res) => {
-          this.transactions = res;
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
-  }
 
   redirectToCreate(): void {
     this.router.navigate(['/transacoes/criar']);
@@ -66,16 +52,12 @@ export class ListTransactionsComponent {
             .pipe(first())
             .subscribe({
               next: () => {
-                this.dialogService
-                  .confirm({
-                    title: 'Excluído',
-                    message: 'A transação foi excluída com sucesso.',
-                    type: 'success',
-                    confirmText: 'OK',
-                  })
-                  .subscribe(() => {
-                    this.getTransactions();
-                  });
+                this.dialogService.confirm({
+                  title: 'Excluído',
+                  message: 'A transação foi excluída com sucesso.',
+                  type: 'success',
+                  confirmText: 'OK',
+                });
               },
               error: (err) => {
                 console.log(err);

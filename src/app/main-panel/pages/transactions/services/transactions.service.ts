@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Transaction } from '../models/transaction.model';
 import { environment } from '../../../../constants/environment';
@@ -8,33 +8,27 @@ import { environment } from '../../../../constants/environment';
   providedIn: 'root',
 })
 export class TransactionsService {
-  private readonly http = inject(HttpClient);
+  private readonly apiURL = `${environment.apiUrl}/transactions`;
+
+  constructor(private http: HttpClient) {}
 
   getTransactions(): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(`${environment.apiUrl}/transactions`);
+    return this.http.get<Transaction[]>(`${this.apiURL}`);
   }
 
   getTransactionById(id: string): Observable<Transaction> {
-    return this.http.get<Transaction>(
-      `${environment.apiUrl}/transactions/${id}`,
-    );
+    return this.http.get<Transaction>(`${this.apiURL}/${id}`);
   }
 
   createTransaction(transaction: Transaction): Observable<void> {
-    return this.http.post<void>(
-      `${environment.apiUrl}/transactions`,
-      transaction,
-    );
+    return this.http.post<void>(`${this.apiURL}`, transaction);
   }
 
   updateTransaction(transaction: Transaction, id: string): Observable<void> {
-    return this.http.put<void>(
-      `${environment.apiUrl}/transactions/${id}`,
-      transaction,
-    );
+    return this.http.put<void>(`${this.apiURL}/${id}`, transaction);
   }
 
   deleteTransaction(id: string): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/transactions/${id}`);
+    return this.http.delete<void>(`${this.apiURL}/${id}`);
   }
 }

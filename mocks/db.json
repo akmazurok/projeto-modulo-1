@@ -2,7 +2,7 @@
   "account": {
     "id": 1,
     "name": "João Silva",
-    "balance": 4229.6
+    "balance": 2576.75
   },
   "transactions": [
     {
@@ -60,6 +60,13 @@
       "description": "Transferência para cc 30232",
       "amount": 20,
       "type": "expense"
+    },
+    {
+      "id": "8323",
+      "date": "2026-03-16T03:00:00.000Z",
+      "description": "ass",
+      "amount": 20,
+      "type": "income"
     }
   ],
   "transfers": [
