@@ -15,11 +15,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { NgxCurrencyDirective } from 'ngx-currency';
 import { first } from 'rxjs/operators';
-import { RouterService } from '../../../../../core/services/router.service';
-import { TransactionPages } from '../../constants/transaction-pages';
 import { ConfirmDialogService } from '../../../../../shared/services/confirm-dialog.service';
 import { dateNotInFuture } from '../../../../../shared/validators/date.validator';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-transaction',

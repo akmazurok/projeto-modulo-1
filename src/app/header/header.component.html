@@ -2,12 +2,15 @@
     <div>
         <img src="assets/img/easybank-logo.png" alt="Logo do EasyBank" class="logo">
     </div>
+    @if (authService.isAuthenticated()){
     <div class="d-flex align-items-center">
         <span class="me-3">
-            Olá, {{ firstName$ | async }}!
+            Olá, {{ accountService.getUserFromToken() }}!
         </span>
-        <button mat-icon-button class="text-white">
+        <button mat-icon-button class="text-white" (click)="authService.logout()">
             <mat-icon aria-hidden="false" aria-label="Ícone do botão sair" fontIcon="logout"></mat-icon>
         </button>
     </div>
+    }
+
 </header>

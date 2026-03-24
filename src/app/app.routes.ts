@@ -9,8 +9,10 @@ import { NotFoundComponent } from './main-panel/pages/not-found/not-found.compon
 import { PerfilComponent } from './main-panel/pages/perfil/perfil.component';
 import { DadosComponent } from './main-panel/pages/perfil/componentes/dados/dados.component';
 import { SegurancaComponent } from './main-panel/pages/perfil/componentes/seguranca/seguranca.component';
+import { LoginComponent } from './main-panel/pages/login/login.component';
 
 export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'transferencia', component: TransfersComponent },
   { path: 'transferencia/criar', component: CreateTransferComponent },
@@ -27,6 +29,6 @@ export const routes: Routes = [
       { path: 'seguranca', component: SegurancaComponent },
     ],
   },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];

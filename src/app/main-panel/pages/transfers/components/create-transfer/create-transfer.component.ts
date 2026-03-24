@@ -16,9 +16,8 @@ import { TransfersService } from '../../services/transfers.service';
 import { ConfirmDialogService } from '../../../../../shared/services/confirm-dialog.service';
 import { TransactionsService } from '../../../transactions/services/transactions.service';
 import { TransactionTypes } from '../../../transactions/constants/transaction-types';
-import { RouterService } from '../../../../../core/services/router.service';
 import { NgxMaskDirective } from 'ngx-mask';
-import { UserService } from '../../../../../core/services/user.service';
+import { AccountService } from '../../../../../core/services/account.service';
 import { amountLessThanBalance } from '../../../../../shared/validators/amount.validator';
 import { Router } from '@angular/router';
 
@@ -41,7 +40,7 @@ export class CreateTransferComponent {
   private readonly transferService = inject(TransfersService);
   private readonly dialogService = inject(ConfirmDialogService);
   private readonly transactionsService = inject(TransactionsService);  
-  private readonly userService = inject(UserService);
+  private readonly userService = inject(AccountService);
   private readonly router = inject(Router);
 
   transferForm!: FormGroup;

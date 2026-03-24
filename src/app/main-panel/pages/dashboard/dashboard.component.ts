@@ -1,20 +1,18 @@
 import { Component, inject, OnInit, signal, effect } from '@angular/core';
 import { first } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { MatCardModule } from '@angular/material/card';
 import { Account } from '../../../models/account.model';
-import { AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { NegativeValuePipe } from '../../../shared/pipes/negative-value.pipe';
 import { TransactionsService } from '../transactions/services/transactions.service';
 import { TransactionTypes } from '../transactions/constants/transaction-types';
 import { Transaction } from '../transactions/models/transaction.model';
 import { SignedValuePipe } from '../../../shared/pipes/signed-value.pipe';
 import { ValueTypeColorPipe } from '../../../shared/pipes/value-type-color.pipe';
-import { UserService } from '../../../core/services/user.service';
+import { AccountService } from '../../../core/services/account.service';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-
-
+import { FirstNamePipe } from '../../../shared/pipes/first-name.pipe';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,16 +23,16 @@ import { MatIconModule } from '@angular/material/icon';
     DatePipe,
     SignedValuePipe,
     ValueTypeColorPipe,
-    AsyncPipe,
-    MatIconModule,   
+    MatIconModule,
+    FirstNamePipe,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
-  private readonly transactionsService = inject(TransactionsService);
-  private readonly userService = inject(UserService);
   private readonly router = inject(Router);
+  accountService = inject(AccountService);
+  private readonly transactionsService = inject(TransactionsService);
 
   account?: Account;
   transactions: Transaction[] = [];
@@ -45,17 +43,12 @@ export class DashboardComponent implements OnInit {
     expense: 0,
     balance: 0,
   };
-  userName$ = this.userService.userName$;
-  firstName$ = this.userName$.pipe(map((name) => name?.split(' ')[0] || ''));
-
+ 
   isBalanceVisible = signal(true);
 
   constructor() {
     effect(() => {
-      console.log(
-        'Extrato:',
-        this.isBalanceVisible(),
-      );
+      console.log('Extrato:', this.isBalanceVisible());
     });
   }
 
@@ -69,10 +62,10 @@ export class DashboardComponent implements OnInit {
   }
 
   getAccount(): void {
-    this.userService.getAccount().subscribe({
+    this.accountService.getAccount().subscribe({
       next: (res: Account) => {
         this.account = res;
-        this.userService.setUserName(res.name);
+        // this.userService.setUserName(res.name);
       },
       error: (err) => {
         console.log(err);
@@ -106,7 +99,7 @@ export class DashboardComponent implements OnInit {
         }
 
         acc.balance = acc.income - acc.expense;
-        this.userService.updateUserBalance(acc.balance);
+        this.accountService.updateUserBalance(acc.balance);
 
         return acc;
       },

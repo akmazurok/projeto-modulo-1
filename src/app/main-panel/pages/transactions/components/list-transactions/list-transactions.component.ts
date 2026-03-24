@@ -22,15 +22,11 @@ export class ListTransactionsComponent {
   private readonly dialogService = inject(ConfirmDialogService);
   private readonly router = inject(Router);
 
+  transactionTypesEnum = TransactionTypes;
+
   transactions = toSignal(this.transactionsService.getTransactions(), {
     initialValue: [] as Transaction[],
   });
-
-  transactionTypesEnum = TransactionTypes;
-
-  redirectToCreate(): void {
-    this.router.navigate(['/transacoes/criar']);
-  }
 
   onEdit(id: string): void {
     this.router.navigate(['/transacoes/editar', id]);
@@ -65,5 +61,9 @@ export class ListTransactionsComponent {
             });
         }
       });
+  }
+
+  redirectToCreate(): void {
+    this.router.navigate(['/transacoes/criar']);
   }
 }
