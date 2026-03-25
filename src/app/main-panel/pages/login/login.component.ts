@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import {
   FormGroup,
@@ -11,21 +11,33 @@ import { Login } from '../transfers/models/login.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-
+import { ConfirmDialogService } from '../../../shared/services/confirm-dialog.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatCardModule,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
   private authService = inject(AuthService);
+  private readonly dialogService = inject(ConfirmDialogService);
   loginForm!: FormGroup;
-  erroMessage = '';
+  errorMessage = signal<string>('');
 
   ngOnInit(): void {
     this.buildForm();
+    this.loginForm.valueChanges.subscribe(() => {
+      this.errorMessage.set('');
+    });
   }
 
   buildForm(): void {
@@ -36,9 +48,13 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    if (this.loginForm.invalid) return;
     const payload: Login = this.loginForm.getRawValue();
+
     if (!this.authService.login(payload)) {
-      this.erroMessage = 'Login ou senha incorretos';
+      this.errorMessage.set('Usuário ou senha inválidos');
+    } else {
+      this.errorMessage.set('');
     }
   }
 }

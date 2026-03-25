@@ -7,8 +7,8 @@
         <span class="me-3">
             Olá, {{ accountService.getUserFromToken() }}!
         </span>
-        <button mat-icon-button class="text-white" (click)="authService.logout()">
-            <mat-icon aria-hidden="false" aria-label="Ícone do botão sair" fontIcon="logout"></mat-icon>
+        <button mat-icon-button title="Sair" class="text-white" (click)="authService.logout()">
+            <mat-icon aria-hidden="false" aria-label="Sair" fontIcon="logout"></mat-icon>
         </button>
     </div>
     }

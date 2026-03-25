@@ -1,4 +1,4 @@
-<div>
+<div class="login-form p-3">
     <h4 class="mb-4">Login</h4>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -6,7 +6,7 @@
         <mat-form-field appearance="outline" class="w-100 mb-3">
             <mat-label>E-mail</mat-label>
             <input matInput formControlName="email" placeholder="Digite seu e-mail">
-              @if (this.loginForm.get("email")?.errors?.["required"]){
+            @if (this.loginForm.get("email")?.errors?.["required"]){
             <mat-error>
                 O e-mail é obrigatório.
             </mat-error>
@@ -15,10 +15,15 @@
 
         <mat-form-field appearance="outline" class="w-100 mb-3">
             <mat-label>Senha</mat-label>
-            <input matInput placeholder="Digite a sua senha" formControlName="password" />
+            <input matInput placeholder="Digite a sua senha" formControlName="password" type="password" />
 
         </mat-form-field>
-        <div class="mt-3">
+        @if (errorMessage()){
+        <div class="alert alert-danger" role="alert">
+            {{errorMessage()}}
+        </div>
+        }
+        <div>
             <button type="submit" class="btn btn-primary me-2" [disabled]="loginForm.invalid">
                 Entrar
             </button>

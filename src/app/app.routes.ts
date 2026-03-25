@@ -10,23 +10,32 @@ import { PerfilComponent } from './main-panel/pages/perfil/perfil.component';
 import { DadosComponent } from './main-panel/pages/perfil/componentes/dados/dados.component';
 import { SegurancaComponent } from './main-panel/pages/perfil/componentes/seguranca/seguranca.component';
 import { LoginComponent } from './main-panel/pages/login/login.component';
+import { authGuard } from './core/guards/auth.guard';
+import { MainPanelComponent } from './main-panel/main-panel.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'transferencia', component: TransfersComponent },
-  { path: 'transferencia/criar', component: CreateTransferComponent },
-  { path: 'credito', component: LoanComponent },
-  { path: 'transacoes', component: TransactionsComponent },
-  { path: 'transacoes/criar', component: CreateTransactionComponent },
-  { path: 'transacoes/editar/:id', component: CreateTransactionComponent },
   {
-    path: 'perfil',
-    component: PerfilComponent,
+    path: '',
+    component: MainPanelComponent,
+    canActivate: [authGuard],
     children: [
-      { path: '', redirectTo: 'dados', pathMatch: 'full' },
-      { path: 'dados', component: DadosComponent },
-      { path: 'seguranca', component: SegurancaComponent },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'transferencia', component: TransfersComponent },
+      { path: 'transferencia/criar', component: CreateTransferComponent },
+      { path: 'credito', component: LoanComponent },
+      { path: 'transacoes', component: TransactionsComponent },
+      { path: 'transacoes/criar', component: CreateTransactionComponent },
+      { path: 'transacoes/editar/:id', component: CreateTransactionComponent },
+      {
+        path: 'perfil',
+        component: PerfilComponent,
+        children: [
+          { path: '', redirectTo: 'dados', pathMatch: 'full' },
+          { path: 'dados', component: DadosComponent },
+          { path: 'seguranca', component: SegurancaComponent },
+        ],
+      },
     ],
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
