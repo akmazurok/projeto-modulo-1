@@ -7,6 +7,7 @@ import { Login } from '../../main-panel/pages/transfers/models/login.model';
 })
 export class AuthService {
   isAuthenticated = signal<boolean>(this.hasToken());
+  user = signal<string | null>(this.getUserFromToken());
 
   constructor(private router: Router) {}
 
@@ -24,6 +25,33 @@ export class AuthService {
 
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  getUserFromToken(): string {
+    const token = localStorage.getItem('token');
+
+    if (!token) return '';
+
+    const payload = this.decodeJwt(token);
+    console.log(payload);
+    return payload.name;
+  }
+
+  decodeJwt(token: string): any {
+    const payload = token.split('.')[1];
+    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+
+    const decoded = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + c.charCodeAt(0).toString(16).padStart(2, '0'))
+        .join(''),
+    );
+    return JSON.parse(decoded);
   }
 
   logout(): void {

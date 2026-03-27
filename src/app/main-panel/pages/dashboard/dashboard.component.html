@@ -1,6 +1,6 @@
 <div class="dashboard-container">
     <div>
-        <h3>Bem vindo, {{ accountService.getUserFromToken() | firstName }} !</h3>
+        <h3>Bem vindo, {{ authService.user()| firstName }} ! 👋 </h3>
     </div>
     <div class="row p-3">
         <div class="col">
@@ -12,9 +12,9 @@
                     </button>
                 </mat-card-header>
                 <mat-card-content class="valor">
-                    <p [class]="(totals.balance) | negativeValue">
+                    <p [class]="accountData()?.balance| negativeValue">
                         @if (isBalanceVisible()) {
-                        {{ totals.balance | currency }}
+                        {{ accountData()?.balance| currency }}
                         }
                         @else {
                         R$ *****
@@ -31,7 +31,7 @@
                 </mat-card-header>
                 <mat-card-content class="valor">
                     <p class="text-success">
-                        {{ totals.income | currency }}
+                        {{ balance | currency }}
                     </p>
                 </mat-card-content>
             </mat-card>
@@ -43,7 +43,7 @@
                 </mat-card-header>
                 <mat-card-content class="valor">
                     <p class="text-danger">
-                        - {{ totals.expense | currency }}
+                        - {{ balance | currency }}
                     </p>
                 </mat-card-content>
             </mat-card>

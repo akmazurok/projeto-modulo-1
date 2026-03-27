@@ -4,7 +4,8 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'negativeValue',
 })
 export class NegativeValuePipe implements PipeTransform {
-  transform(value: number): string {
+  transform(value: number | null | undefined): string {
+    if (value == null) return '';
     if (value > 0) {
       return 'text-success';
     }

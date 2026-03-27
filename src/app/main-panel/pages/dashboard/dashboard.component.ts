@@ -1,18 +1,20 @@
-import { Component, inject, OnInit, signal, effect } from '@angular/core';
-import { first } from 'rxjs';
-import { MatCardModule } from '@angular/material/card';
-import { Account } from '../../../models/account.model';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { first } from 'rxjs';
+import { AccountService } from '../../../core/services/account.service';
+import { Account } from '../../../models/account.model';
+import { FirstNamePipe } from '../../../shared/pipes/first-name.pipe';
 import { NegativeValuePipe } from '../../../shared/pipes/negative-value.pipe';
-import { TransactionsService } from '../transactions/services/transactions.service';
-import { TransactionTypes } from '../transactions/constants/transaction-types';
-import { Transaction } from '../transactions/models/transaction.model';
 import { SignedValuePipe } from '../../../shared/pipes/signed-value.pipe';
 import { ValueTypeColorPipe } from '../../../shared/pipes/value-type-color.pipe';
-import { AccountService } from '../../../core/services/account.service';
-import { Router } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { FirstNamePipe } from '../../../shared/pipes/first-name.pipe';
+import { TransactionTypes } from '../transactions/constants/transaction-types';
+import { Transaction } from '../transactions/models/transaction.model';
+import { TransactionsService } from '../transactions/services/transactions.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,46 +33,28 @@ import { FirstNamePipe } from '../../../shared/pipes/first-name.pipe';
 })
 export class DashboardComponent implements OnInit {
   private readonly router = inject(Router);
-  accountService = inject(AccountService);
+  private readonly accountService = inject(AccountService);  
   private readonly transactionsService = inject(TransactionsService);
+  authService = inject(AuthService);
 
-  account?: Account;
+  accountData = toSignal<Account>(this.accountService.getAccount());
+
   transactions: Transaction[] = [];
   lastTransactions: Transaction[] = [];
   transactionTypesEnum = TransactionTypes;
-  totals = {
-    income: 0,
-    expense: 0,
-    balance: 0,
-  };
- 
+  balance = 2300;
+
   isBalanceVisible = signal(true);
+  isLoading = signal(false);
 
-  constructor() {
-    effect(() => {
-      console.log('Extrato:', this.isBalanceVisible());
-    });
-  }
+  constructor() {}
 
-  ngOnInit() {
-    this.getAccount();
-    this.getTransactions();
+  ngOnInit() {   
+    //this.getTransactions();
   }
 
   toogleBalance(): void {
     this.isBalanceVisible.update((visible) => !visible);
-  }
-
-  getAccount(): void {
-    this.accountService.getAccount().subscribe({
-      next: (res: Account) => {
-        this.account = res;
-        // this.userService.setUserName(res.name);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
   }
 
   getTransactions(): void {
@@ -80,8 +64,7 @@ export class DashboardComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.transactions = res;
-          this.lastTransactions = this.transactions.slice(-5).reverse();
-          this.totals = this.calculateTotals(this.transactions);
+          this.lastTransactions = this.transactions.slice(-5).reverse();      
         },
         error: (err) => {
           console.log(err);
@@ -89,26 +72,16 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  calculateTotals(transactions: Transaction[]) {
-    return transactions.reduce(
-      (acc, t) => {
-        if (t.type === 'income') {
-          acc.income += t.amount;
-        } else {
-          acc.expense += t.amount;
-        }
+  get totalIncome(): number {
+    return this.transactions
+      .filter((item) => item.amount > 0)
+      .reduce((sum, item) => sum + item.amount, 0);
+  }
 
-        acc.balance = acc.income - acc.expense;
-        this.accountService.updateUserBalance(acc.balance);
-
-        return acc;
-      },
-      {
-        income: 0,
-        expense: 0,
-        balance: 0,
-      },
-    );
+  get totalExpense(): number {
+    return this.transactions
+      .filter((item) => item.amount < 0)
+      .reduce((sum, item) => sum + Math.abs(item.amount), 0);
   }
 
   navigateToTransactions(): void {

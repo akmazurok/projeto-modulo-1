@@ -1,33 +1,33 @@
 import { Component } from '@angular/core';
-
 import { MenuItem } from '../models/menu-item.model';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [MatButtonModule, RouterModule],
+  imports: [MatButtonModule, RouterModule, TranslatePipe],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
   menuItems: MenuItem[] = [
     {
-      label: 'Dashboard',
+      label: 'SIDEBAR.DASHBOARD',
       routerLinkActive: 'active',
       routerLink: '/dashboard',
     },
-    { label: 'Perfil', routerLinkActive: 'active', routerLink: '/perfil' },
+    { label: 'SIDEBAR.PROFILE', routerLinkActive: 'active', routerLink: '/perfil' },
     {
-      label: 'Extrato',
+      label: 'SIDEBAR.TRANSACTIONS',
       routerLinkActive: 'active',
       routerLink: '/transacoes',
     },
     {
-      label: 'Transferência',
+      label: 'SIDEBAR.TRANSFER',
       routerLinkActive: 'active',
       routerLink: '/transferencia',
     },
-    { label: 'Crédito', routerLinkActive: 'active', routerLink: '/credito' },
+    { label: 'SIDEBAR.LOAN', routerLinkActive: 'active', routerLink: '/credito' },
   ];
 }

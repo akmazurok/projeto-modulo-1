@@ -2,7 +2,7 @@
 
     @for (item of menuItems; track $index){
     <button class="menu-item" mat-flat-button [routerLinkActive]="item.routerLinkActive"
-        [routerLink]="item.routerLink">{{ item.label }}</button>
+        [routerLink]="item.routerLink">{{ item.label |translate }}</button>
     }
 
 </aside>

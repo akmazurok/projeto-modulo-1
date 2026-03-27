@@ -1,16 +1,30 @@
-<header class="header">
-    <div>
+<header class="navbar">
+
+    <div class="logo">
         <img src="assets/img/easybank-logo.png" alt="Logo do EasyBank" class="logo">
     </div>
-    @if (authService.isAuthenticated()){
-    <div class="d-flex align-items-center">
-        <span class="me-3">
-            Olá, {{ accountService.getUserFromToken() }}!
-        </span>
-        <button mat-icon-button title="Sair" class="text-white" (click)="authService.logout()">
-            <mat-icon aria-hidden="false" aria-label="Sair" fontIcon="logout"></mat-icon>
-        </button>
-    </div>
-    }
 
+    <div class="nav-right">
+
+        @if (isAuthenticated()){
+        <div class="user-info">
+            <span class="me-3">
+                Olá, {{ authService.user() }}!
+            </span>
+            <button mat-icon-button title="Sair" class="text-white" (click)="logout()">
+                <mat-icon aria-hidden="false" aria-label="Sair" fontIcon="logout"></mat-icon>
+            </button>
+        </div>
+        }
+        <div class="lang-selector">
+            <button mat-icon-button  title="Idioma"class="text-white" [matMenuTriggerFor]="menu">
+                <mat-icon aria-hidden="false" aria-label="Sair" fontIcon="language"></mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="mudarIdioma('pt-BR')">pt-BR</button>
+                <button mat-menu-item (click)="mudarIdioma('pt-PT')">pt-PT</button>
+            </mat-menu>          
+        </div>
+
+    </div>
 </header>

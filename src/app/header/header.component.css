@@ -1,13 +1,30 @@
-.header {
-    height: 64px;
-    background-color: var(--primary-color);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 24px;
+.navbar {
+  height: 64px;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
 }
 
 .logo {
-    height: 32px;
+  height: 32px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  
+}
+
+.lang-selector {
+  display: flex;
+  gap: 5px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }

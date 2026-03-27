@@ -40,7 +40,7 @@ export class CreateTransferComponent {
   private readonly transferService = inject(TransfersService);
   private readonly dialogService = inject(ConfirmDialogService);
   private readonly transactionsService = inject(TransactionsService);  
-  private readonly userService = inject(AccountService);
+  private readonly accountService = inject(AccountService);
   private readonly router = inject(Router);
 
   transferForm!: FormGroup;
@@ -78,7 +78,7 @@ export class CreateTransferComponent {
   }
 
   getUserBalance(): void {
-    this.userService.getUserBalance().subscribe({
+    this.accountService.getBalance().subscribe({
       next: (res) => {
         this.userBalance = res.balance;
       },
