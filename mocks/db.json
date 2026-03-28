@@ -2,10 +2,10 @@
   "account": {
     "id": 1,
     "name": "João Silva",
-    "balance": 2083.2699999999995,
-    "item": {
-      "balance": 2083.2699999999995
-    }
+    "balance": 2085.38,
+    "dataNascimento": "1992-05-15",
+    "cpf": "12345678900",
+    "status": "Ativo"
   },
   "transactions": [
     {
@@ -86,10 +86,10 @@
       "type": "expense"
     },
     {
-      "id": "a62a",
+      "id": "3b80",
       "date": "2026-03-28",
-      "description": "assdd",
-      "amount": 10,
+      "description": "aass",
+      "amount": 12.12,
       "type": "income"
     }
   ],

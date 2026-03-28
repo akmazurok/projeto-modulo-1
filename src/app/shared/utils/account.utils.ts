@@ -3,7 +3,8 @@ export function calculateBalance(
   amount: number,
   type: 'income' | 'expense',
 ): number {
-  return type === 'income' ? current + amount : current - amount;
+  const result = type === 'income' ? current + amount : current - amount;
+  return Number(result.toFixed(2));
 }
 
 export function deleteTransaction(current: number, amount: number): number {

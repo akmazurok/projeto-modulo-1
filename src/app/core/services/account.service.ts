@@ -36,8 +36,7 @@ export class AccountService {
         const newBalance = calculateBalance(account.balance, amount, type);
 
         const payload = {
-          balance: newBalance,
-          item: { balance: newBalance },
+          balance: newBalance,         
         };
 
         return this.http.patch<Account>(`${this.apiURL}`, payload);
@@ -53,8 +52,7 @@ export class AccountService {
         const newBalance = deleteTransaction(account.balance, amount);
 
         const payload = {
-          balance: newBalance,
-          item: { balance: newBalance },
+          balance: newBalance,       
         };
 
         return this.http.patch<Account>(`${this.apiURL}`, payload);

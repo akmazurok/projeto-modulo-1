@@ -28,8 +28,8 @@ import { CreditCardInvoiceComponent } from './components/credit-card-invoice/cre
     ValueTypeColorPipe,
     MatIconModule,
     FirstNamePipe,
-    CreditCardInvoiceComponent
-],
+    CreditCardInvoiceComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -39,7 +39,9 @@ export class DashboardComponent implements OnInit {
   private readonly transactionsService = inject(TransactionsService);
   authService = inject(AuthService);
 
-  accountData = toSignal<Account>(this.accountService.getAccount());
+  accountData = toSignal(this.accountService.accountData$, {
+    initialValue: { balance: 0 } as Account,
+  });
 
   transactions: Transaction[] = [];
   lastTransactions: Transaction[] = [];
@@ -53,7 +55,7 @@ export class DashboardComponent implements OnInit {
   isLoading = signal(false);
 
   ngOnInit() {
-    this.getTransactions();     
+    this.getTransactions();
   }
 
   toogleBalance(): void {

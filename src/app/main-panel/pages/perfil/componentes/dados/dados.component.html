@@ -1,1 +1,24 @@
-<p>dados works!</p>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="mb-0">Detalhes do Cliente</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="text-muted small d-block">Nome Completo</label>
+                    <span class="fw-bold fs-5">{{user?.name}}</span>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="text-muted small d-block">CPF</label>
+                    <span class="fw-bold">{{user?.cpf | cpf}}</span>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="text-muted small d-block">Data de Nascimento</label>
+                    <span class="fw-bold">{{user?.dataNascimento | date: 'dd/MM/yyyy'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
