@@ -2,7 +2,7 @@
   "account": {
     "id": 1,
     "name": "João Silva",
-    "balance": 2085.38,
+    "balance": 2077.72,
     "dataNascimento": "1992-05-15",
     "cpf": "12345678900",
     "status": "Ativo"
@@ -37,21 +37,21 @@
       "type": "income"
     },
     {
-      "date": "2026-03-19",
+      "date": "2026-03-19T10:00:00Z",
       "description": "Aluguel",
       "amount": 1500.85,
       "type": "expense",
       "id": "40c3"
     },
     {
-      "date": "2026-03-20",
+      "date": "2026-03-20T10:00:00Z",
       "description": "Pix",
       "amount": 900,
       "type": "income",
       "id": "5fca"
     },
     {
-      "date": "2026-03-18",
+      "date": "2026-03-18T10:00:00Z",
       "description": "Parcela 25 de 60 carro",
       "amount": 2032,
       "type": "expense",
@@ -59,7 +59,7 @@
     },
     {
       "id": "",
-      "date": "2026-03-03",
+      "date": "2026-03-03T10:00:00Z",
       "description": "Transferência para cc 30232",
       "amount": 20,
       "type": "expense"
@@ -73,58 +73,58 @@
     },
     {
       "id": "5232",
-      "date": "2026-03-27",
+      "date": "2026-03-27T10:00:00Z",
       "description": "Transferência para 30218",
       "amount": 200,
       "type": "expense"
     },
     {
-      "id": "5691",
-      "date": "2026-03-28",
-      "description": "asdsd",
-      "amount": 20,
-      "type": "expense"
-    },
-    {
       "id": "3b80",
-      "date": "2026-03-28",
+      "date": "2026-03-28T10:00:00Z",
       "description": "aass",
       "amount": 12.12,
+      "type": "income"
+    },
+    {
+      "id": "f534",
+      "date": "2026-03-17T03:00:00.000Z",
+      "description": "asd",
+      "amount": 12.34,
       "type": "income"
     }
   ],
   "transfers": [
     {
       "id": "c290",
-      "date": "2026-03-02",
+      "date": "2026-03-02T10:00:00Z",
       "toAccountId": "45464",
       "amount": 30.2,
       "description": "Hotel"
     },
     {
       "id": "5bc2",
-      "date": "2026-03-02",
+      "date": "2026-03-02T10:00:00Z",
       "toAccountId": "23023",
       "amount": 12.3,
       "description": "Mesada"
     },
     {
       "id": "7c2e",
-      "date": "2026-03-02",
+      "date": "2026-03-02T10:00:00Z",
       "toAccountId": "23003",
       "amount": 30,
       "description": "Pagamento"
     },
     {
       "id": "3aa9",
-      "date": "2026-03-03",
+      "date": "2026-03-03T10:00:00Z",
       "toAccountId": "30232",
       "amount": 20,
       "description": "Diária"
     },
     {
       "id": "5783",
-      "date": "2026-03-28",
+      "date": "2026-03-28T10:00:00Z",
       "toAccountId": "30218",
       "amount": 200,
       "description": "Reserva quarto"

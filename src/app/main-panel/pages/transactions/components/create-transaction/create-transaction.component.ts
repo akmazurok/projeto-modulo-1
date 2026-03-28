@@ -46,7 +46,7 @@ export class CreateTransactionComponent {
 
   transactionForm!: FormGroup;
   transactionTypesEnum = TransactionTypes;
-  todayISO = getTodayISO();
+  dateISO = getTodayISO();
   currencyOptions = CURRENCY_OPTIONS;
 
   ngOnInit(): void {
@@ -59,10 +59,7 @@ export class CreateTransactionComponent {
 
   buildForm(): void {
     this.transactionForm = new FormGroup({
-      date: new FormControl<string>(this.todayISO, [
-        Validators.required,
-        dateNotInFuture,
-      ]),
+      date: new FormControl<string>('', [Validators.required, dateNotInFuture]),
       description: new FormControl(null, [
         Validators.required,
         Validators.minLength(3),
@@ -95,7 +92,7 @@ export class CreateTransactionComponent {
       return;
     }
 
-    this.saveTransaction(payload);   
+    this.saveTransaction(payload);
   }
 
   saveTransaction(transactionData: any): void {

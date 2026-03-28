@@ -6,15 +6,15 @@
         <div class="col">
             <mat-card class="mat-primary">
                 <mat-card-header>
-                    <h5>Saldo em Conta</h5>
+                    <h5>{{ 'DASHBOARD.SALDO_DISPONIVEL' | translate }}</h5>
                     <button mat-icon-button class="custom-icon-button" (click)="toogleBalance()">
                         <mat-icon>{{isBalanceVisible() ? 'visibility' : 'visibility_off'}}</mat-icon>
-                    </button>
+                    </button>   
                 </mat-card-header>
                 <mat-card-content class="valor">
-                    <p [class]="accountData()?.balance| negativeValue">
+                    <p [class]="accountData().balance| negativeValue">
                         @if (isBalanceVisible()) {
-                        {{ accountData()?.balance| currency }}
+                        {{ accountData().balance| currency }}
                         }
                         @else {
                         R$ *****
@@ -51,7 +51,7 @@
     </div>
     <div class="row p-3">
         <div class="col table-responsive">
-            <h5>Últimas transações</h5>
+            <h5>{{ 'DASHBOARD.ULTIMAS_TRANSACOES' | translate}}</h5>
             <table class="table table-striped">
                 <thead>
                     <tr>

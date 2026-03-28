@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject , computed} from '@angular/core';
 import { TransactionsService } from '../../services/transactions.service';
 import { Transaction } from '../../models/transaction.model';
 import { TransactionTypes } from '../../constants/transaction-types';
@@ -11,6 +11,7 @@ import { ConfirmDialogService } from '../../../../../shared/services/confirm-dia
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AccountService } from '../../../../../core/services/account.service';
+
 
 @Component({
   selector: 'app-list-transactions',
@@ -29,6 +30,12 @@ export class ListTransactionsComponent {
   transactions = toSignal(this.transactionsService.transactions$, {
     initialValue: [] as Transaction[],
   });
+
+  sortedTransactions = computed(() =>
+    [...this.transactions()].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    ),
+  );
 
   onEdit(id: string): void {
     this.router.navigate(['/transacoes/editar', id]);

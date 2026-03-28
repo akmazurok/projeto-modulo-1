@@ -6,6 +6,10 @@ export function getTodayISO(): string {
     .split('T')[0];
 }
 
-export function isFutureDate(date: string): boolean {
-  return new Date(date) > new Date();
+export function toISOStringFromDate(date: string): string {
+  const [year, month, day] = date.split('-').map(Number);
+
+  const localDate = new Date(year, month - 1, day);
+
+  return localDate.toISOString();
 }

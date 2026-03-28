@@ -16,6 +16,8 @@ import { Transaction } from '../transactions/models/transaction.model';
 import { TransactionsService } from '../transactions/services/transactions.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { CreditCardInvoiceComponent } from './components/credit-card-invoice/credit-card-invoice.component';
+import { TranslatePipe } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +31,8 @@ import { CreditCardInvoiceComponent } from './components/credit-card-invoice/cre
     MatIconModule,
     FirstNamePipe,
     CreditCardInvoiceComponent,
+    TranslatePipe,
+    TranslateModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
