@@ -54,11 +54,11 @@ export class ConfirmDialogComponent {
     }
   }
 
-  confirm() {
+  onConfirm() {
     this.dialogRef.close(true);
   }
 
-  cancel() {
+  onCancel() {
     this.dialogRef.close(false);
   }
 }

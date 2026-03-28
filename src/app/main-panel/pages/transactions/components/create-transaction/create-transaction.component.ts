@@ -18,6 +18,9 @@ import { first } from 'rxjs/operators';
 import { ConfirmDialogService } from '../../../../../shared/services/confirm-dialog.service';
 import { dateNotInFuture } from '../../../../../shared/validators/date.validator';
 import { Router } from '@angular/router';
+import { CURRENCY_OPTIONS } from '../../../../../shared/config/currency.config';
+import { getTodayISO } from '../../../../../shared/utils/date.utils';
+import { AccountService } from '../../../../../core/services/account.service';
 
 @Component({
   selector: 'app-create-transaction',
@@ -37,21 +40,14 @@ export class CreateTransactionComponent {
   private readonly transactionsService = inject(TransactionsService);
   private readonly dialogService = inject(ConfirmDialogService);
   private readonly router = inject(Router);
-  
+  private readonly accountService = inject(AccountService);
+
   @Input() id?: string;
 
   transactionForm!: FormGroup;
   transactionTypesEnum = TransactionTypes;
-  todayISO = new Date().toISOString().split('T')[0];
-
-  currencyOptions = {
-    prefix: 'R$ ',
-    thousands: '.',
-    decimal: ',',
-    precision: 2,
-    allowNegative: false,
-    align: 'left',
-  };
+  todayISO = getTodayISO();
+  currencyOptions = CURRENCY_OPTIONS;
 
   ngOnInit(): void {
     this.buildForm();
@@ -59,17 +55,11 @@ export class CreateTransactionComponent {
     if (this.id) {
       this.getTransactionById();
     }
-
-    this.transactionForm
-      .get('date')
-      ?.valueChanges.subscribe(() =>
-        console.log(this.transactionForm.get('date')),
-      );
   }
 
   buildForm(): void {
     this.transactionForm = new FormGroup({
-      date: new FormControl(this.todayISO, [
+      date: new FormControl<string>(this.todayISO, [
         Validators.required,
         dateNotInFuture,
       ]),
@@ -105,12 +95,12 @@ export class CreateTransactionComponent {
       return;
     }
 
-    this.saveTransaction(payload);
+    this.saveTransaction(payload);   
   }
 
   saveTransaction(transactionData: any): void {
     this.transactionsService.createTransaction(transactionData).subscribe({
-      next: (res) => {
+      next: () => {
         this.dialogService
           .confirm({
             title: 'Sucesso',
@@ -119,8 +109,13 @@ export class CreateTransactionComponent {
             confirmText: 'OK',
             cancelText: '',
           })
-          .subscribe(() => {
-            this.backToList();
+          .subscribe((result) => {
+            if (result === true) {
+              this.accountService
+                .updateBalance(transactionData.amount, transactionData.type)
+                .subscribe();
+              this.backToList();
+            }
           });
       },
       error: (err) => {
@@ -151,6 +146,10 @@ export class CreateTransactionComponent {
           console.log(err);
         },
       });
+  }
+
+  updateBalance(amount: number, type: any) {
+    this.accountService.updateBalance(amount, type);
   }
 
   backToList(): void {

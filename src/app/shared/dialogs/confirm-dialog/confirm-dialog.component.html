@@ -8,11 +8,12 @@
 </mat-dialog-content>
 
 <mat-dialog-actions class="dialog-actions">
-    <button type="button" class="btn btn-light" (click)="cancel()">
+    @if (data.cancelText){
+    <button type="button" class="btn btn-light" (click)="onCancel()">
         {{ data.cancelText }}
     </button>
-
-    <button type="button" [class]="buttonColor" (click)="confirm()">
-        {{ data.confirmText}}
+    }
+    <button type="button" [class]="buttonColor" (click)="onConfirm()">
+        {{ data.confirmText || "OK"}}
     </button>
 </mat-dialog-actions>

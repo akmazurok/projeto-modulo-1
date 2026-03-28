@@ -1,16 +1,16 @@
 {
-    "SIDEBAR": {
-        "DASHBOARD": "Início",
-        "TRANSFER": "Transferência",
-        "LOAN": "Empréstimos",
-        "TRANSACTIONS": "Extrato",
-        "PROFILE": "Perfil"
-    },
-    "DASHBOARD": {
-        "SALDO_DISPONIVEL": "Saldo Disponível",
-        "VALOR_EMPRESTIMO": "valor do Empréstimo",
-        "FATURA_CARTAO": "Fatura do Cartão",
-        "VER_FATURAS": "Ver faturas",
-        "ULTIMAS_TRANSACOES": "Últimas Transações"
-    }
+  "SIDEBAR": {
+    "DASHBOARD": "Início",
+    "TRANSFER": "Transferência",
+    "LOAN": "Empréstimos",
+    "TRANSACTIONS": "Extrato",
+    "PROFILE": "Perfil"
+  },
+  "DASHBOARD": {
+    "SALDO_DISPONIVEL": "Saldo Disponível",
+    "VALOR_EMPRESTIMO": "valor do Empréstimo",
+    "FATURA_CARTAO": "Fatura do Cartão",
+    "VER_FATURAS": "Ver faturas",
+    "ULTIMAS_TRANSACOES": "Últimas Transações"
+  }
 }

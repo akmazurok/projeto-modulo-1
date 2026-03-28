@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, effect } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -20,6 +20,9 @@ import { NgxMaskDirective } from 'ngx-mask';
 import { AccountService } from '../../../../../core/services/account.service';
 import { amountLessThanBalance } from '../../../../../shared/validators/amount.validator';
 import { Router } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-create-transfer',
@@ -31,6 +34,8 @@ import { Router } from '@angular/router';
     MatDatepickerModule,
     NgxCurrencyDirective,
     NgxMaskDirective,
+    CurrencyPipe,
+    AsyncPipe,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './create-transfer.component.html',
@@ -39,9 +44,12 @@ import { Router } from '@angular/router';
 export class CreateTransferComponent {
   private readonly transferService = inject(TransfersService);
   private readonly dialogService = inject(ConfirmDialogService);
-  private readonly transactionsService = inject(TransactionsService);  
+  private readonly transactionsService = inject(TransactionsService);
   private readonly accountService = inject(AccountService);
   private readonly router = inject(Router);
+
+  accountData$ = this.accountService.accountData$;
+  accountData = toSignal(this.accountData$);
 
   transferForm!: FormGroup;
   todayISO = new Date().toISOString().split('T')[0];
@@ -58,16 +66,21 @@ export class CreateTransferComponent {
 
   ngOnInit(): void {
     this.buildForm();
+
+    effect(() => {
+      this.accountData();
+      this.transferForm.get('amount')?.updateValueAndValidity();
+    });
   }
 
   buildForm(): void {
-    this.getUserBalance();
+    // this.getUserBalance();
     this.transferForm = new FormGroup({
       date: new FormControl(this.todayISO),
       toAccountId: new FormControl(null, Validators.required),
       amount: new FormControl(null, [
         Validators.required,
-        amountLessThanBalance(() => this.userBalance),
+        amountLessThanBalance(() => this.accountData()?.balance ?? 0),
       ]),
       description: new FormControl(null, [
         Validators.required,
@@ -77,18 +90,18 @@ export class CreateTransferComponent {
     });
   }
 
-  getUserBalance(): void {
-    this.accountService.getBalance().subscribe({
-      next: (res) => {
-        this.userBalance = res.balance;
-      },
-      error: (err) => {
-        console.error('Erro ao obter saldo do usuário:', err);
-      },
-    });
-  }
+  // getUserBalance(): void {
+  //   this.accountService.getBalance().subscribe({
+  //     next: (res) => {
+  //       this.userBalance = res.balance;
+  //     },
+  //     error: (err) => {
+  //       console.error('Erro ao obter saldo do usuário:', err);
+  //     },
+  //   });
+  // }
 
-  saveTransfer(transactionData: any): void {
+  saveTransfer(transactionData: Transfer): void {
     this.transferService.createTransfer(transactionData).subscribe({
       next: (res) => {
         this.createExpense();
@@ -102,6 +115,7 @@ export class CreateTransferComponent {
           })
           .subscribe(() => {
             this.transferForm.reset();
+            this.accountService.refreshBalance();
           });
       },
       error: (err) => {
@@ -121,7 +135,7 @@ export class CreateTransferComponent {
         id: '',
       })
       .subscribe({
-        next: (res) => {
+        next: (res) => {        
           console.log('Transação de despesa criada:', res);
         },
         error: (err) => {

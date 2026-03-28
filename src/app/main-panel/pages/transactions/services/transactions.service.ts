@@ -1,14 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Transaction } from '../models/transaction.model';
 import { environment } from '../../../../../environments/environment.development';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransactionsService {
   private readonly apiURL = `${environment.apiUrl}/transactions`;
+  private refresh$ = new BehaviorSubject<void>(undefined);
+
+  transactions$ = this.refresh$.pipe(switchMap(() => this.getTransactions()));
 
   constructor(private http: HttpClient) {}
 
@@ -29,6 +33,8 @@ export class TransactionsService {
   }
 
   deleteTransaction(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiURL}/${id}`);
+    return this.http
+      .delete<void>(`${this.apiURL}/${id}`)
+      .pipe(tap(() => this.refresh$.next()));
   }
 }

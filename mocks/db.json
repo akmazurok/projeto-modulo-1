@@ -2,53 +2,56 @@
   "account": {
     "id": 1,
     "name": "João Silva",
-    "balance": 2596.75
+    "balance": 2083.2699999999995,
+    "item": {
+      "balance": 2083.2699999999995
+    }
   },
   "transactions": [
     {
       "id": "1",
-      "date": "2026-02-01T10:00:00",
+      "date": "2026-03-01T10:00:00",
       "description": "Salário",
       "amount": 4500,
       "type": "income"
     },
     {
       "id": "2",
-      "date": "2026-02-02T14:32:00",
+      "date": "2026-03-02T14:32:00",
       "description": "Supermercado",
       "amount": 230.5,
       "type": "expense"
     },
     {
       "id": "3",
-      "date": "2026-02-03T20:10:00",
+      "date": "2026-03-03T20:10:00",
       "description": "Netflix",
       "amount": 39.9,
       "type": "expense"
     },
     {
       "id": "4",
-      "date": "2026-02-05T09:15:00",
+      "date": "2026-03-05T09:15:00",
       "description": "Freelance",
       "amount": 1000,
       "type": "income"
     },
     {
-      "date": "2026-02-19",
+      "date": "2026-03-19",
       "description": "Aluguel",
       "amount": 1500.85,
       "type": "expense",
       "id": "40c3"
     },
     {
-      "date": "2026-02-28",
+      "date": "2026-03-20",
       "description": "Pix",
       "amount": 900,
       "type": "income",
       "id": "5fca"
     },
     {
-      "date": "2026-02-28",
+      "date": "2026-03-18",
       "description": "Parcela 25 de 60 carro",
       "amount": 2032,
       "type": "expense",
@@ -64,8 +67,29 @@
     {
       "id": "8323",
       "date": "2026-03-16T03:00:00.000Z",
-      "description": "ass",
+      "description": "Estacionamento",
       "amount": 20,
+      "type": "expense"
+    },
+    {
+      "id": "5232",
+      "date": "2026-03-27",
+      "description": "Transferência para 30218",
+      "amount": 200,
+      "type": "expense"
+    },
+    {
+      "id": "5691",
+      "date": "2026-03-28",
+      "description": "asdsd",
+      "amount": 20,
+      "type": "expense"
+    },
+    {
+      "id": "a62a",
+      "date": "2026-03-28",
+      "description": "assdd",
+      "amount": 10,
       "type": "income"
     }
   ],
@@ -97,6 +121,13 @@
       "toAccountId": "30232",
       "amount": 20,
       "description": "Diária"
+    },
+    {
+      "id": "5783",
+      "date": "2026-03-28",
+      "toAccountId": "30218",
+      "amount": 200,
+      "description": "Reserva quarto"
     }
   ],
   "loans": []

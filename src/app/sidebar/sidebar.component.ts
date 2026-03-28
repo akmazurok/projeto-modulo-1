@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MenuItem } from '../models/menu-item.model';
+import { MenuItem } from '../shared/models/menu-item.model';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';

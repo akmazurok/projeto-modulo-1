@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { TransactionsService } from '../../services/transactions.service';
 import { Transaction } from '../../models/transaction.model';
 import { TransactionTypes } from '../../constants/transaction-types';
-import { first } from 'rxjs/operators';
+import { map, filter, switchMap } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
 import { ValueTypeColorPipe } from '../../../../../shared/pipes/value-type-color.pipe';
@@ -10,6 +10,7 @@ import { SignedValuePipe } from '../../../../../shared/pipes/signed-value.pipe';
 import { ConfirmDialogService } from '../../../../../shared/services/confirm-dialog.service';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { AccountService } from '../../../../../core/services/account.service';
 
 @Component({
   selector: 'app-list-transactions',
@@ -19,12 +20,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class ListTransactionsComponent {
   private readonly transactionsService = inject(TransactionsService);
+  private readonly accountService = inject(AccountService);
   private readonly dialogService = inject(ConfirmDialogService);
   private readonly router = inject(Router);
 
   transactionTypesEnum = TransactionTypes;
 
-  transactions = toSignal(this.transactionsService.getTransactions(), {
+  transactions = toSignal(this.transactionsService.transactions$, {
     initialValue: [] as Transaction[],
   });
 
@@ -37,29 +39,24 @@ export class ListTransactionsComponent {
       .confirm({
         title: 'Confirmar exclusão',
         message: 'Tem certeza que deseja excluir esta transação?',
-        type: 'warn',
+        type: 'warning',
         confirmText: 'Excluir',
         cancelText: 'Cancelar',
       })
-      .subscribe((confirmed) => {
-        if (confirmed) {
+      .pipe(
+        filter((result) => result === true),
+        switchMap(() => this.transactionsService.getTransactionById(id)),
+        switchMap((transaction) =>
           this.transactionsService
             .deleteTransaction(id)
-            .pipe(first())
-            .subscribe({
-              next: () => {
-                this.dialogService.confirm({
-                  title: 'Excluído',
-                  message: 'A transação foi excluída com sucesso.',
-                  type: 'success',
-                  confirmText: 'OK',
-                });
-              },
-              error: (err) => {
-                console.log(err);
-              },
-            });
-        }
+            .pipe(map(() => transaction)),
+        ),
+        switchMap((transaction) =>
+          this.accountService.updateOnDelete(transaction.amount),
+        ),
+      )
+      .subscribe({
+        error: (err) => console.error(err),
       });
   }
 

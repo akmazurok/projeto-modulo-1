@@ -31,7 +31,7 @@
                 </mat-card-header>
                 <mat-card-content class="valor">
                     <p class="text-success">
-                        {{ balance | currency }}
+                        {{ totalIncome | currency }}
                     </p>
                 </mat-card-content>
             </mat-card>
@@ -43,7 +43,7 @@
                 </mat-card-header>
                 <mat-card-content class="valor">
                     <p class="text-danger">
-                        - {{ balance | currency }}
+                        - {{ totalExpense | currency }}
                     </p>
                 </mat-card-content>
             </mat-card>
@@ -73,10 +73,23 @@
                 </tbody>
             </table>
         </div>
-        <div class="text-end">
+        <!-- <div class="text-end">
             <button class="btn btn-outline-primary btn-sm" (click)="navigateToTransactions()">
                 Ver mais...
             </button>
+        </div> -->
+        @defer (on interaction(loadButton)) {
+        <app-credit-card-invoice></app-credit-card-invoice>
+        }
+        @placeholder {
+        <div #loadButton class="loading-placeholder" style="color: goldenrod; cursor: pointer;">
+            Clique para ver a fatura do cartão de crédito
         </div>
+        }
+        @loading (minimum 2s) {
+        <div class="loading-placeholder" style="color: goldenrod;">
+            Carregando fatura do cartão de crédito...
+        </div>
+        }
     </div>
 </div>
