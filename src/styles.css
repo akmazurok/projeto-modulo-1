@@ -1,3 +1,5 @@
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
 body {
   margin: 0;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
@@ -13,4 +15,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --info-color: #2196f3;
   --success-color: #4caf50;
   --warning-color: #ffc107;
+}
+
+.mat-typography {
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500 !important;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.75rem; }
+  h4 { font-size: 1.5rem; }
+  h5 { font-size: 1.25rem; }
+  h6 { font-size: 1rem; }
 }

@@ -8,5 +8,6 @@ export function calculateBalance(
 }
 
 export function deleteTransaction(current: number, amount: number): number {
-  return current - amount;
+  const result = current - amount;
+  return Number(result.toFixed(2));
 }

@@ -1,4 +1,4 @@
-import { Component, inject , computed} from '@angular/core';
+import { Component, inject, computed, ViewChild, effect } from '@angular/core';
 import { TransactionsService } from '../../services/transactions.service';
 import { Transaction } from '../../models/transaction.model';
 import { TransactionTypes } from '../../constants/transaction-types';
@@ -11,11 +11,25 @@ import { ConfirmDialogService } from '../../../../../shared/services/confirm-dia
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AccountService } from '../../../../../core/services/account.service';
-
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-list-transactions',
-  imports: [DatePipe, ValueTypeColorPipe, SignedValuePipe, CurrencyPipe],
+  imports: [
+    DatePipe,
+    ValueTypeColorPipe,
+    SignedValuePipe,
+    CurrencyPipe,
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,  
+  ],
   templateUrl: './list-transactions.component.html',
   styleUrl: './list-transactions.component.css',
 })
@@ -36,6 +50,21 @@ export class ListTransactionsComponent {
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
     ),
   );
+
+  dataSource = new MatTableDataSource<Transaction>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  displayedColumns: string[] = ['date', 'description', 'amount', 'actions'];
+
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.sortedTransactions();
+    });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 
   onEdit(id: string): void {
     this.router.navigate(['/transacoes/editar', id]);

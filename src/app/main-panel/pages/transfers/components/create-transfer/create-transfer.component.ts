@@ -20,9 +20,11 @@ import { NgxMaskDirective } from 'ngx-mask';
 import { AccountService } from '../../../../../core/services/account.service';
 import { amountLessThanBalance } from '../../../../../shared/validators/amount.validator';
 import { Router } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { CURRENCY_OPTIONS } from '../../../../../shared/config/currency.config';
+import { AccountMaskPipe } from '../../../../../shared/pipes/account-mask.pipe';
+import { Account } from '../../../../../shared/models/account.model';
 
 @Component({
   selector: 'app-create-transfer',
@@ -35,9 +37,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
     NgxCurrencyDirective,
     NgxMaskDirective,
     CurrencyPipe,
-    AsyncPipe,
+   
   ],
-  providers: [provideNativeDateAdapter()],
+  providers: [provideNativeDateAdapter(), AccountMaskPipe],
   templateUrl: './create-transfer.component.html',
   styleUrl: './create-transfer.component.css',
 })
@@ -47,36 +49,32 @@ export class CreateTransferComponent {
   private readonly transactionsService = inject(TransactionsService);
   private readonly accountService = inject(AccountService);
   private readonly router = inject(Router);
+  private accountPipe = inject(AccountMaskPipe);
 
-  accountData$ = this.accountService.accountData$;
-  accountData = toSignal(this.accountData$);
+  accountData = toSignal(this.accountService.accountData$, {
+    initialValue: { balance: 0 } as Account,
+  });
+
 
   transferForm!: FormGroup;
-  todayISO = new Date().toISOString().split('T')[0];
-  userBalance: number = 0;
+  currencyOptions = CURRENCY_OPTIONS;
 
-  currencyOptions = {
-    prefix: 'R$ ',
-    thousands: '.',
-    decimal: ',',
-    precision: 2,
-    allowNegative: false,
-    align: 'left',
-  };
-
-  ngOnInit(): void {
-    this.buildForm();
-
+  constructor() {
     effect(() => {
-      this.accountData();
-      this.transferForm.get('amount')?.updateValueAndValidity();
+      const balance = this.accountData()?.balance;
+      if (balance !== undefined) {
+        this.transferForm.get('amount')?.updateValueAndValidity();
+      }
     });
   }
 
+  ngOnInit(): void {
+    this.buildForm();
+  }
+
   buildForm(): void {
-    // this.getUserBalance();
     this.transferForm = new FormGroup({
-      date: new FormControl(this.todayISO),
+      date: new FormControl(new Date(), Validators.required),
       toAccountId: new FormControl(null, Validators.required),
       amount: new FormControl(null, [
         Validators.required,
@@ -90,21 +88,15 @@ export class CreateTransferComponent {
     });
   }
 
-  // getUserBalance(): void {
-  //   this.accountService.getBalance().subscribe({
-  //     next: (res) => {
-  //       this.userBalance = res.balance;
-  //     },
-  //     error: (err) => {
-  //       console.error('Erro ao obter saldo do usuário:', err);
-  //     },
-  //   });
-  // }
+  onSubmit() {
+    const payload: Transfer = this.transferForm.getRawValue();
+    this.saveTransfer(payload);
+  }
 
-  saveTransfer(transactionData: Transfer): void {
-    this.transferService.createTransfer(transactionData).subscribe({
-      next: (res) => {
-        this.createExpense();
+  saveTransfer(transferData: Transfer): void {
+    this.transferService.createTransfer(transferData).subscribe({
+      next: () => {
+        this.createExpense(transferData);
         this.dialogService
           .confirm({
             title: 'Sucesso',
@@ -113,9 +105,13 @@ export class CreateTransferComponent {
             confirmText: 'OK',
             cancelText: '',
           })
-          .subscribe(() => {
-            this.transferForm.reset();
-            this.accountService.refreshBalance();
+          .subscribe((result) => {
+            if (result === true) {
+              this.accountService
+                .updateBalance(transferData.amount, 'expense')
+                .subscribe();
+              this.backToList();
+            }
           });
       },
       error: (err) => {
@@ -124,18 +120,19 @@ export class CreateTransferComponent {
     });
   }
 
-  createExpense(): void {
+  createExpense(transferData: Transfer): void {
     this.transactionsService
       .createTransaction({
-        date: this.todayISO,
+        ...transferData,
         description:
-          'Transferência para ' + this.transferForm.get('toAccountId')?.value,
-        amount: this.transferForm.get('amount')?.value,
+          'Transferência para ' +
+          this.accountPipe.transform(
+            this.transferForm.get('toAccountId')?.value,
+          ),
         type: TransactionTypes.EXPENSE,
-        id: '',
       })
       .subscribe({
-        next: (res) => {        
+        next: (res) => {
           console.log('Transação de despesa criada:', res);
         },
         error: (err) => {
@@ -144,9 +141,8 @@ export class CreateTransferComponent {
       });
   }
 
-  onSubmit() {
-    const payload: Transfer = this.transferForm.getRawValue();
-    this.saveTransfer(payload);
+  updateBalance(amount: number, type: any) {
+    this.accountService.updateBalance(amount, type);
   }
 
   backToList(): void {

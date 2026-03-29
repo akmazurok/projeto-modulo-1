@@ -15,5 +15,6 @@
 .custom-icon-button {
   border: none !important;
   color: var(--primary-color);
+  background-color: transparent !important;
   
 }

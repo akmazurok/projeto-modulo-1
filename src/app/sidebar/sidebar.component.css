@@ -1,8 +1,9 @@
 .sidebar {
-  display: flex;  
+  display: flex;
   flex-direction: column;
-  height: calc(100vh - 64px);
-  background-color: var(--secondary-color);
+  min-height: calc(100vh - 64px);
+  height: auto;
+  background-color: var(--secondary-color) !important;
   padding: 48px 15px;
   box-sizing: border-box;
 }
@@ -10,11 +11,11 @@
 .menu-item {
   margin-bottom: 10px;
   border-radius: 2px;
+  background-color: var(--mat-sys-primary) !important;
+  color: #fff !important;
 
   &.active {
-    background-color: var(--primary-color);
-    color: #fff;
+    background-color: var(--primary-color) !important;
+    color: #fff !important;
   }
 }
-
-

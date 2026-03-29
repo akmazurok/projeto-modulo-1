@@ -1,31 +1,49 @@
 <div class="row">
+    <h4>Transferências</h4>
     <div class="mb-3">
         <button class="btn btn-primary" (click)="redirectToCreate()">
             Nova Transferência
         </button>
     </div>
     <div class="col">
-        <h4>Transferências</h4>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Conta de destino</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (item of transfers; track $index) {
-                <tr>
-                    <td>{{ item.date | date: 'dd/MM/yyyy' }}</td>
-                    <td>{{ item.toAccountId | accountMask }}</td>
-                    <td>{{ item.description }}</td>
-                    <td class="text-danger">{{ item.amount |currency }}</td>
-                </tr>
-                }
-            </tbody>
+
+        <table mat-table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Data </th>
+                <td mat-cell *matCellDef="let t">
+                    {{ t.date | date:'dd/MM/yyyy' }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="toAccountId">
+                <th mat-header-cell *matHeaderCellDef> Destino </th>
+                <td mat-cell *matCellDef="let t">
+                    {{ t.toAccountId | accountMask}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef> Descrição </th>
+                <td mat-cell *matCellDef="let t">
+                    {{ t.description }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef> Valor </th>
+                <td mat-cell *matCellDef="let t" class="text-danger">
+                    {{ t.amount | signedValue: "expense" | currency }}
+                </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+        <mat-paginator [pageSize]="6" [pageSizeOptions]="[6, 12]" showFirstLastButtons>
+        </mat-paginator>
+
 
     </div>
 </div>

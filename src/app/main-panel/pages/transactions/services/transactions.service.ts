@@ -26,10 +26,10 @@ export class TransactionsService {
   }
 
   createTransaction(transaction: Transaction): Observable<void> {
-    const payload = {
-      ...transaction,
-      date: toISOStringFromDate(transaction.date),
-    };
+    // const payload = {
+    //   ...transaction,
+    //   date: toISOStringFromDate(transaction.date),
+    // };
     return this.http.post<void>(`${this.apiURL}`, transaction);
   }
 

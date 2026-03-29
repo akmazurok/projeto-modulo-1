@@ -1,7 +1,7 @@
 <div>
     <h4 class="mb-4">Transferência</h4>
     <div class="col mb-4">
-        <h5>Saldo em Conta: {{ (accountData$ | async )?.balance | currency }}</h5>
+        <h5>Saldo em Conta: {{ accountData().balance | currency }}</h5>
     </div>
 
     <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">

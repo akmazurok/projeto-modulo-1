@@ -1,40 +1,54 @@
 <div class="row">
     <div class="col">
+        <h4>Extrato</h4>
         <div class="mb-3">
             <button class="btn btn-primary" (click)="redirectToCreate()">
                 Adicionar Transação
             </button>
         </div>
-        <h4>Extrato</h4>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (item of sortedTransactions(); track $index) {
-                <tr>
-                    <td>{{ item.date | date: 'dd/MM/yyyy' }}</td>
-                    <td>{{ item.description }}</td>
-                    <td [class]="item.type | valueTypeColor">
-                        {{ item.amount | signedValue: item.type | currency }}
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary me-2" (click)="onEdit(item.id)">
-                            Editar
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger" (click)="onDelete(item.id)">
-                            Excluir
-                        </button>
-                    </td>
-                </tr>
-                }
-            </tbody>
+
+        <table mat-table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Data </th>
+                <td mat-cell *matCellDef="let t">
+                    {{ t.date | date:'dd/MM/yyyy' }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef> Descrição </th>
+                <td mat-cell *matCellDef="let t">
+                    {{ t.description }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef> Valor </th>
+                <td mat-cell *matCellDef="let t" [class]="t.type | valueTypeColor">
+                    {{ t.amount | signedValue: t.type | currency }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Ações </th>
+
+                <td mat-cell *matCellDef="let t">
+                    <button mat-icon-button matTooltip="Editar" (click)="onEdit(t.id)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button color="warn" matTooltip="Excluir" (click)="onDelete(t.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+        <mat-paginator [pageSize]="6" [pageSizeOptions]="[6, 12]" showFirstLastButtons>
+        </mat-paginator>
 
     </div>
 </div>

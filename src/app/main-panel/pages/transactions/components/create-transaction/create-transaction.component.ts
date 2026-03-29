@@ -19,7 +19,6 @@ import { ConfirmDialogService } from '../../../../../shared/services/confirm-dia
 import { dateNotInFuture } from '../../../../../shared/validators/date.validator';
 import { Router } from '@angular/router';
 import { CURRENCY_OPTIONS } from '../../../../../shared/config/currency.config';
-import { getTodayISO } from '../../../../../shared/utils/date.utils';
 import { AccountService } from '../../../../../core/services/account.service';
 
 @Component({
@@ -46,7 +45,6 @@ export class CreateTransactionComponent {
 
   transactionForm!: FormGroup;
   transactionTypesEnum = TransactionTypes;
-  dateISO = getTodayISO();
   currencyOptions = CURRENCY_OPTIONS;
 
   ngOnInit(): void {
@@ -59,7 +57,7 @@ export class CreateTransactionComponent {
 
   buildForm(): void {
     this.transactionForm = new FormGroup({
-      date: new FormControl<string>('', [Validators.required, dateNotInFuture]),
+      date: new FormControl(new Date(), [Validators.required, dateNotInFuture]),
       description: new FormControl(null, [
         Validators.required,
         Validators.minLength(3),
