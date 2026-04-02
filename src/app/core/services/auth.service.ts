@@ -36,8 +36,7 @@ export class AuthService {
 
     if (!token) return '';
 
-    const payload = this.decodeJwt(token);
-    console.log(payload);
+    const payload = this.decodeJwt(token);    
     return payload.name;
   }
 

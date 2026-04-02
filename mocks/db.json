@@ -2,8 +2,8 @@
   "account": {
     "id": 1,
     "name": "João Silva",
-    "balance": 1985.37,
-    "dataNascimento": "1992-05-15",
+    "balance": 2985.37,
+    "dataNascimento": "992-05-15",
     "cpf": "12345678900",
     "status": "Ativo"
   },
@@ -17,7 +17,7 @@
     },
     {
       "id": "2",
-      "date": "2026-03-02T14:32:00",
+      "date": "2026-04-02T14:32:00",
       "description": "Supermercado",
       "amount": 230.5,
       "type": "expense"
@@ -77,36 +77,6 @@
       "description": "Transferência para 3021-8",
       "amount": 200,
       "type": "expense"
-    },
-    {
-      "id": "3b80",
-      "date": "2026-03-28T10:00:00Z",
-      "description": "aass",
-      "amount": 12.12,
-      "type": "income"
-    },
-    {
-      "id": "",
-      "date": "2026-03-28",
-      "description": "Transferência para 2321-6",
-      "amount": 12.11,
-      "type": "expense"
-    },
-    {
-      "id": "0e59",
-      "date": "2026-03-29T14:45:10.045Z",
-      "toAccountId": "30000",
-      "amount": 30,
-      "description": "Transferência para 3000-0",
-      "type": "expense"
-    },
-    {
-      "id": "a544",
-      "date": "2026-03-29T14:54:54.554Z",
-      "toAccountId": "20000",
-      "amount": 20,
-      "description": "Transferência para 2000-0",
-      "type": "expense"
     }
   ],
   "transfers": [
@@ -144,34 +114,6 @@
       "toAccountId": "30218",
       "amount": 200,
       "description": "Reserva quarto"
-    },
-    {
-      "id": "870b",
-      "date": "2026-03-29T14:42:17.159Z",
-      "toAccountId": "22321",
-      "amount": 30,
-      "description": "asdf"
-    },
-    {
-      "id": "80c5",
-      "date": "2026-03-29T14:43:52.289Z",
-      "toAccountId": "23151",
-      "amount": 50,
-      "description": "teste"
-    },
-    {
-      "id": "d9ce",
-      "date": "2026-03-29T14:45:10.045Z",
-      "toAccountId": "30000",
-      "amount": 30,
-      "description": "asdf"
-    },
-    {
-      "id": "789a",
-      "date": "2026-03-29T14:54:54.554Z",
-      "toAccountId": "20000",
-      "amount": 20,
-      "description": "sasd"
     }
   ],
   "loans": []

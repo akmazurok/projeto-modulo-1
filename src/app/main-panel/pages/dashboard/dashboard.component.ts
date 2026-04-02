@@ -3,7 +3,6 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
 import { first } from 'rxjs';
 import { AccountService } from '../../../core/services/account.service';
 import { Account } from '../../../shared/models/account.model';
@@ -32,13 +31,12 @@ import { TranslateModule } from '@ngx-translate/core';
     FirstNamePipe,
     CreditCardInvoiceComponent,
     TranslatePipe,
-    TranslateModule
+    TranslateModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
-  private readonly router = inject(Router);
   private readonly accountService = inject(AccountService);
   private readonly transactionsService = inject(TransactionsService);
   authService = inject(AuthService);
@@ -103,9 +101,5 @@ export class DashboardComponent implements OnInit {
     return this.currentMonthTransactions
       .filter((item) => item.type === this.transactionTypesEnum.EXPENSE)
       .reduce((sum, item) => sum + Math.abs(item.amount), 0);
-  }
-
-  navigateToTransactions(): void {
-    this.router.navigate(['/transacoes']);
   }
 }

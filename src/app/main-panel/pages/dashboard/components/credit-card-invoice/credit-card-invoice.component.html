@@ -1,1 +1,36 @@
-<p>credit-card-invoice works!</p>
+<div class="col table-responsive">
+  <h5>Fatura do Cartão</h5>
+
+  <div class="mb-3">
+    <strong>Fechamento:</strong> {{ invoiceClosingDate | date:'dd/MM/yyyy' }} <br>
+    <strong>Vencimento:</strong> {{ invoiceDueDate | date:'dd/MM/yyyy' }} <br>
+    <strong>Total:</strong>
+    <span class="text-danger fw-bold">
+      {{ totalInvoice | currency:'BRL' }}
+    </span>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Estabelecimento</th>
+        <th>Parcela</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (item of invoiceTransactions; track item.id) {
+      <tr>
+        <td>{{ item.date | date:'dd/MM/yyyy' }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.installment }}</td>
+        <td class="text-danger">
+          {{ item.amount | currency:'BRL' }}
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

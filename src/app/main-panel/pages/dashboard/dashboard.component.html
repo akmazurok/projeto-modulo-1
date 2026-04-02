@@ -9,7 +9,7 @@
                     <h5>{{ 'DASHBOARD.SALDO_DISPONIVEL' | translate }}</h5>
                     <button mat-icon-button class="custom-icon-button" (click)="toogleBalance()">
                         <mat-icon>{{isBalanceVisible() ? 'visibility' : 'visibility_off'}}</mat-icon>
-                    </button>   
+                    </button>
                 </mat-card-header>
                 <mat-card-content class="valor">
                     <p [class]="accountData().balance| negativeValue">
@@ -73,21 +73,17 @@
                 </tbody>
             </table>
         </div>
-        <!-- <div class="text-end">
-            <button class="btn btn-outline-primary btn-sm" (click)="navigateToTransactions()">
-                Ver mais...
-            </button>
-        </div> -->
+
         @defer (on interaction(loadButton)) {
         <app-credit-card-invoice></app-credit-card-invoice>
         }
         @placeholder {
-        <div #loadButton class="loading-placeholder" style="color: goldenrod; cursor: pointer;">
+        <div #loadButton class="loading-placeholder" style="color: rgb(20, 20, 128) ; cursor: pointer;">
             Clique para ver a fatura do cartão de crédito
         </div>
         }
         @loading (minimum 2s) {
-        <div class="loading-placeholder" style="color: goldenrod;">
+        <div class="loading-placeholder" style="color: #2196f3;">
             Carregando fatura do cartão de crédito...
         </div>
         }
